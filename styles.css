@@ -1,0 +1,2318 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.VT323 {
+  font-family: "vt323", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+  /* 1. Makes the jump smooth instead of instant */
+  scroll-behavior: smooth;
+  /* 2. Offsets the scroll position */
+  scroll-padding-top: 20px; /*this is for sticky header height*/
+}
+/* 3. Mobile Size Adjustment */
+@media (max-width: 420px) {
+  html {
+    scroll-padding-top: 400px; /* bigger mobile header + padding */
+  }
+}
+:root {
+  /* Blend mode variables - change these to try different effects (e.g. screen, overlay, multiply, normal) */
+  --overlay-blend: multiply;
+  /* Define color and sizing variables */
+  --background-color: #ffedcd;
+  --primary-color: rgb(166, 0, 0);
+  --secondary-color: #459f3791;
+  --thirdary-color: #47240091;
+  --dark-green: #0a390a;
+  --dark-red: #660000;
+  --pink: rgb(255, 128, 159);
+  --yellowgreen: rgb(180, 255, 128);
+  --paragraph-color: #47240091;
+  --font-subheading-size: clamp(1rem, 4vw, 2rem);
+  --font-size-base: clamp(1rem, 4vw, 1.3rem);
+  --font-heading-size: clamp(1.5rem, 5vw, 2rem);
+  --font-family-base: "vt323", monospace;
+  --text-main: #333;
+  /* Responsive heading size between 2rem and 4rem based on viewport width */
+  --spacing-unit: 8px;
+  --radius: 15px;
+  --space: 2rem;
+  --pattern-bg-color: #4a2521; /* The deep brown background */
+  --pattern-dot-color: #46a19f; /* The teal/cyan dot color */
+
+  /* Adjust sizes here to change the look pattern density.
+               Desktop/Tablet default sizes:
+            */
+  --dot-radius: 1.5px; /* How big the dots are */
+  --tile-size: 30px;
+  /* Width reserved for the price column - keeps prices aligned */
+  --price-col: clamp(4.5rem, 6.5vw, 6rem);
+}
+
+body {
+  width: 100%;
+  min-height: 100vh; /* changed height to min-height */
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-family-base);
+  cursor: grab;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--pattern-bg-color);
+  background-image: radial-gradient(
+      circle,
+      var(--pattern-dot-color) var(--dot-radius),
+      transparent calc(var(--dot-radius) + 0.5px)
+    ),
+    radial-gradient(
+      circle,
+      var(--pattern-dot-color) var(--dot-radius),
+      transparent calc(var(--dot-radius) + 0.5px)
+    );
+  background-size: var(--tile-size) var(--tile-size);
+  background-position: calc(var(--tile-size) / 2) calc(var(--tile-size) / 2),
+    0 0;
+}
+
+@media (max-width: 400px) {
+  body {
+    height: auto; /* allow scrolling on mobile */
+  }
+}
+
+/* ========================================= */
+#npc-follower {
+  position: fixed;
+  width: 50px; /* Stays on screen even if you scroll */ /* Size of the emoji */
+  pointer-events: none; /* CRITICAL: Lets you click through the character */
+  z-index: 9999; /* Always on top */
+  transition: transform 0.2s ease-out; /* The "lag" effect */
+  image-rendering: pixelated;
+  scale: 1.5; /* change the size of cursor emoji */
+}
+#npc-follower img {
+  width: 3.5rem;
+  margin-left: 0;
+  padding: 0;
+}
+
+.sparkle {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  background-image: url("images/sparkle.png");
+  background-size: cover;
+  background-color: transparent;
+  transform: rotate(30deg); /* Start rotated for a more dynamic fall */
+  /* The animation definition */
+  animation: sparkle-fall 2s ease-in-out forwards;
+  mix-blend-mode: hard-light;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* The animation keyframes: fade out, drop down, shrink */
+@keyframes sparkle-fall {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    transform: translate(var(--random-x), 0) scale(1); /* Start at random X position */
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(var(--random-x), 75px) scale(0); /* Falls down 25px */
+    transform: rotate(50deg); /* Keep it rotated for a dynamic effect */
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--random-x), 150px) scale(0); /* Falls down 50px */
+    transform: rotate(80deg); /* Keep it rotated for a dynamic effect */
+  }
+}
+
+/* Main Container */
+
+#container {
+  position: relative;
+  width: 100vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; /* Perfect for Logo -- Menu */
+  top: 0;
+  padding: 0.5rem 3vw;
+  width: 100%;
+  height: 4.5rem;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  overflow: visible !important;
+  background-color: rgb(54, 200, 178);
+}
+
+/* --- RESPONSIVE LOGO --- */
+.logo {
+  display: flex;
+  justify-content: center;
+  /* format: clamp(MIN, IDEAL, MAX) */
+  width: clamp(70px, 15vw, 100px);
+  height: auto;
+  /* Remove margins to let Flexbox handle alignment in the header */
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  z-index: 50; /* Ensure it stays above background */
+}
+
+.logo img {
+  max-width: 100%; /* Fills the .logo container width */
+  height: auto; /* Maintains aspect ratio */
+  object-fit: contain;
+  object-position: center center;
+}
+
+/* Dropdown Menu Styles */
+/* =========================================
+   1. DESKTOP STYLES (Default)
+   Horizontal menu, No button, Always visible
+   ========================================= */
+
+.dropdown-wrapper {
+  position: relative;
+  display: flex;
+  /* FIX 1: Ensure the wrapper itself fills the available space */
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 10px;
+  z-index: 100;
+  overflow: visible !important;
+  margin-left: auto; /* This pushes the wrapper all the way to the right side */
+}
+
+/* HIDE the button on desktop */
+.dropdown-btn {
+  display: none;
+}
+
+/* Reset the menu to be a normal row */
+.dropdown-menu {
+  position: static;
+  display: flex;
+  flex-direction: row;
+  /* FIX 2: Force the menu to stretch to 100% of the wrapper's width */
+  width: 100%;
+
+  /* FIX 3: Use 'space-evenly' for perfect gaps between all items and edges */
+  justify-content: space-evenly;
+
+  /* Override hiding properties */
+  background-color: transparent;
+  pointer-events: auto;
+  overflow: visible;
+  border: 1px dashed rgba(255, 255, 255, 0.06);
+  z-index: 101;
+}
+
+/* Desktop Link Styles */
+.dropdown-menu a {
+  color: whitesmoke;
+  text-decoration: none;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  /* Optional: Center text if links have different widths */
+  justify-content: center;
+  width: 100%;
+}
+
+.dropdown-menu a:hover {
+  color: greenyellow;
+}
+#site-navigation a {
+  gap: 1rem;
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+}
+
+@media (max-width: 1000px) {
+  .dropdown-menu a {
+    padding: 0.5rem 2rem;
+  }
+}
+/* HOVER / ACTIVE STATE (Popped Up Tab) */
+.dropdown-menu a:hover {
+  background-color: greenyellow;
+  color: var(--text-main);
+  border: 3px solid whitesmoke;
+  /* Lift the tab up slightly */
+  transform: translateY(-4px);
+
+  /* Brighten the border */
+
+  border-radius: 10px 10px 10px 10px;
+  /* Add a shadow to make it pop */
+  box-shadow: 0px -4px 18px rgba(21, 0, 0, 0.2);
+  z-index: 100;
+}
+
+/* Navigation specific font sizing */
+#site-navigation a {
+  font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+}
+/* =========================================
+   2. MOBILE STYLES (Max-width: 640px)
+   FIXED: Menu floats absolute so logo doesn't move
+   ========================================= */
+
+@media (max-width: 620px) {
+  header {
+    /* Ensure header can grow if needed */
+    height: 4rem;
+    padding: 0.5rem 1rem;
+    position: relative;
+    margin-bottom: 1.4rem;
+  }
+  .nav-toggle {
+    margin-top: 0;
+    transform: translateY(-5px); /* Pulls it up slightly */
+  }
+
+  .dropdown-wrapper {
+    /* This keeps the wrapper small, fitting only the button */
+    position: relative;
+    align-items: flex-end;
+    flex-direction: column;
+    width: 100%;
+    background-color: transparent;
+    margin-left: 0; /* Reset left margin for mobile */
+    z-index: 2000; /* Ensure it stays above other elements */
+    overflow: visible !important;
+  }
+
+  /* SHOW the button */
+  .dropdown-btn {
+    display: block;
+    background-color: var(--yellowgreen);
+    color: var(--text-main);
+    padding: 0.5rem 1rem;
+    font-family: var(--font-family-base);
+    font-size: clamp(0.8rem, 3vw, 1.2rem);
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    /* Width adjusted to look good next to logo */
+    width: auto;
+    min-width: 60px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .dropdown-btn:hover {
+    background-color: rgb(204, 255, 0);
+  }
+  /* APPLY the Dropdown Logic */
+
+  .dropdown-menu {
+    position: absolute;
+    min-width: 150px;
+    max-width: 20vw;
+    background-color: var(--pink);
+
+    /* CLOSED STATE: */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden; /* <--- CRITICAL: Hide content when closed */
+    pointer-events: none;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    z-index: 2001;
+    border-radius: 10px;
+    flex-direction: column;
+  }
+
+  /* OPEN STATE: */
+  .dropdown-menu.open {
+    max-height: 200px;
+    opacity: 1;
+    overflow: visible; /* <--- CRITICAL: Show content when open */
+    pointer-events: auto;
+    padding: 1px 1px;
+    z-index: 2001;
+  }
+  .dropdown-menu a {
+    display: block;
+
+    /* 1. Reduce padding (was 1rem) */
+    padding: 1rem 1rem;
+
+    /* 2. Force a smaller text size (overrides ID selectors) */
+    font-size: 1rem !important;
+
+    background-color: transparent;
+    border-radius: 10px;
+  }
+  .dropdown-menu a:hover {
+    background-color: var(--yellowgreen);
+    color: var(--text-main);
+  }
+}
+/* END of Dropdown Menu Styles */
+
+/* ========================================= */
+/* Main Title Container */
+/* 1. Make the container a Flex column to center everything easily */
+/* .main-title-container-1 {
+  position: absolute; /* Keep this if you need it over a background 
+  width: 100vw;
+  height: 90vh; /* Takes up most of the viewport 
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers items horizontally 
+  justify-content: center; /* Centers items vertically 
+  z-index: 10; /* Lets clicks pass through to background 
+} */
+
+/* 2. The wrapper for your two images */
+#title {
+  position: relative;
+  width: 100vw;
+  /* CHANGED: Let the height fit the content + some padding */
+  height: auto;
+  padding-top: 5rem; /* Manually control the top gap */
+  padding-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: center;
+}
+@media (max-width: 450px) {
+  #title {
+    bottom: 0;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    row-gap: 2rem;
+  }
+}
+/* 3. Style "Welcome To" */
+#welcome-to {
+  display: flexbox;
+  width: 100%;
+  max-width: 300px; /* Stop it from getting too huge on big screens */
+  min-width: 150px; /* Stop it from getting too tiny on mobile */
+  height: auto;
+  margin-bottom: 1rem; /* Small space between this and the next image */
+}
+
+/* 4. Style "My Portfolio" */
+#my-portfolio {
+  display: flexbox;
+  width: 100%;
+  scale: 1.2;
+  max-width: 600px;
+  min-width: 280px;
+  height: auto;
+  margin-top: 0;
+}
+
+/* 5. Buttons Decorations */
+.deco-buttons {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+.deco-buttons img {
+  width: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+#red-btn {
+  position: absolute;
+  top: 10%;
+  left: 8%;
+  width: 25%;
+  height: auto;
+  opacity: 0.7;
+  image-rendering: pixelated;
+}
+#green-btn {
+  position: absolute;
+  top: 60%;
+  right: 10%;
+  width: 15%;
+  height: auto;
+  image-rendering: pixelated;
+}
+#yellow-btn {
+  position: absolute;
+  bottom: 9%;
+  left: 70%;
+  width: 10%;
+  opacity: 0.5;
+  height: auto;
+  image-rendering: pixelated;
+}
+@media (max-width: 800px) {
+  .deco-buttons {
+    display: none; /* Hide decorations on small screens */
+  }
+  #red-btn {
+    top: 5%;
+    left: 10%;
+    width: 55%;
+    height: auto;
+    image-rendering: pixelated;
+  }
+  #green-btn {
+    top: 5%;
+    right: 10%;
+    width: 35%;
+    height: auto;
+    image-rendering: pixelated;
+  }
+  #yellow-btn {
+    bottom: 5%;
+    left: 70%;
+    width: 25%;
+    height: auto;
+    image-rendering: pixelated;
+  }
+}
+#start-exit-buttons {
+  display: flex;
+  flex-direction: row; /* Side by side */
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; /* Space between the buttons */
+  margin-top: 2rem;
+}
+
+#exit,
+#lets-start {
+  position: relative;
+  width: auto;
+  cursor: pointer;
+  transform: scale(0.5); /* Adjust size: 1 = normal, 0.5 = half size */
+  transition: transform 0.2s ease; /* Makes hover smooth */
+}
+@media (max-width: 450px) {
+  #exit,
+  #lets-start {
+    transform: scale(0.7); /* Slightly smaller on small screens */
+  }
+}
+/* Optional: Make them pop when hovered */
+#exit:hover,
+#lets-start:hover {
+  transform: scale(0.55);
+}
+
+/* Ensure images don't have weird gaps */
+#exit img,
+#lets-start img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 3. Text Styling & Centering */
+p#exit-text,
+p#lets-start-text {
+  position: absolute;
+  /* CENTER THE TEXT OVER THE IMAGE */
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0; /* Remove default paragraph margins */
+  width: 100%; /* Ensure text aligns relative to full width */
+  font-size: clamp(3rem, 6vw, 4rem);
+  font-family: VT323, monospace;
+  color: var(--text-main);
+  text-align: center;
+  pointer-events: none; /* Lets clicks pass through text to the button */
+  white-space: nowrap; /* Stops text from wrapping weirdly */
+}
+
+#exit:hover,
+#lets-start:hover {
+  transform: scale(0.55); /* Slightly larger on hover */
+}
+@media (max-width: 800px) {
+  #welcome-to {
+    width: 50%;
+  }
+  #my-portfolio {
+    width: 80%;
+  }
+}
+
+@media (max-width: 420px) {
+  #welcome-to {
+    width: 50%;
+    padding-top: 4rem;
+  }
+  #my-portfolio {
+    width: 80%;
+  }
+}
+
+/* ========================================= */
+/* RPG Character Card Styles */
+/* About Section Styles */
+.about-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(1rem, 6vw, 2rem);
+  box-sizing: border-box;
+  position: relative; /* Acts as the boundary for the draggable card */
+  overflow: hidden;
+}
+
+/* The RPG Card Container */
+.character-card {
+  position: absolute;
+  background-color: rgb(253, 239, 214);
+  /* Create a pixelated shadow effect */
+  box-shadow: 8px 8px 0px rgba(92, 23, 23, 0.2);
+  width: 100%;
+  max-width: 800px;
+  border-radius: 15px; /* Slight rounding for a softer pixel look */
+  overflow: hidden;
+}
+
+/* Window Header (Top Bar) */
+.window-header {
+  background-color: var(--pink);
+  color: whitesmoke;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-base);
+  border-bottom: 5px solid var(--dark-red);
+  cursor: grab; /* Shows the hand icon */
+  user-select: none; /* Prevents highlighting text while dragging */
+}
+
+.window-header:active {
+  cursor: grabbing; /* Closes the hand when clicking */
+}
+
+.window-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.2rem;
+}
+
+.win-btn {
+  cursor: pointer;
+}
+.win-btn:hover {
+  color: yellowgreen;
+}
+
+/* 1. By default, HIDE the maximize button (Mobile/Tablet/Laptop) */
+.win-btn.max-btn {
+  display: none !important;
+}
+
+/* 2. Only SHOW it if the screen is huge (1440px+) */
+@media (min-width: 1250px) {
+  .win-btn.max-btn {
+    display: inline-block !important;
+  }
+}
+
+/* Layout Grid */
+.rpg-content {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* Fixed width for left col, rest for right */
+  padding: 24px;
+  gap: 24px;
+}
+
+/* --- Left Column: Avatar & Stats --- */
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pixel-frame {
+  width: 100%;
+  /* A double border effect */
+  border: 2px solid var(--secondary-color);
+  border-radius: 20px;
+  padding: 8px;
+  background: #fff;
+}
+
+.pixel-frame img {
+  width: 100%;
+  border-radius: 20px;
+  height: auto;
+  display: block;
+  image-rendering: pixelated; /* Ensures pixel art stays crisp */
+}
+
+/* HP/MP Bars */
+.status-bars {
+  font-size: var(--font-heading-size);
+  border: var(--pink) 2px dashed;
+  padding: 10px;
+  border-radius: 12px;
+  background: white;
+}
+.bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.bar-container {
+  flex-grow: 1; /* Bars take up remaining space */
+  background: #ffffff;
+  height: 20px;
+  border: 2px solid #000;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.bar-fill.hp {
+  background: var(--pink);
+} /* Red for HP */
+.bar-fill.mp {
+  background: var(--yellowgreen);
+} /* Blue for MP */
+
+/* --- Right Column: Info & Tabs --- */
+.info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.char-name {
+  font-size: 4rem;
+  line-height: 1;
+  margin: 0 0 8px 0;
+  color: var(--dark-green);
+}
+.char-class {
+  color: var(--pink);
+  font-size: var(--font-subheading-size);
+  margin: 0 0 20px 0;
+  border-bottom: 3px dashed #ffcaca;
+  padding-bottom: 20px;
+}
+/* =========================================
+   RPG TABS (File Folder Style)
+   ========================================= */
+
+/* Container for the tabs */
+.rpg-tabs {
+  display: flex;
+  align-items: flex-end; /* Align to bottom so they grow upwards */
+  gap: 5px; /* Default gap */
+  margin-bottom: 0; /* Remove margin, they sit directly on the content */
+  padding-left: 20px;
+  height: 50px; /* Reserve space for the tabs popping up */
+  position: relative;
+  z-index: 5; /* Behind the content box slightly? No, on top usually */
+  top: 2px; /* Slight overlap with content border */
+}
+
+/* The Individual Tab Buttons */
+.tab-btn {
+  background-color: #ffe4c4; /* Light folder color */
+  border: 3px solid var(--dark-red);
+  border-bottom: none; /* Connect to body */
+  border-radius: 15px 15px 0 0; /* Round top corners */
+
+  font-family: var(--font-pixel, monospace);
+  font-size: 1.2rem; /* BIGGER TEXT */
+  color: var(--dark-red);
+  font-weight: bold;
+
+  padding: 10px 25px; /* BIGGER CLICK AREA */
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Bouncy transition */
+  transform-origin: bottom center;
+}
+
+/* Hover Effect */
+.tab-btn:hover {
+  background-color: #fff0d6;
+  padding-bottom: 15px; /* Grow slightly */
+  transform: translateY(-5px);
+}
+
+/* Active State (The selected tab) */
+.tab-btn.active {
+  background-color: #fff5f5; /* Matches the content body background */
+  color: var(--primary-color);
+  padding-bottom: 15px; /* Taller */
+  padding-top: 15px;
+  z-index: 10; /* Bring to front */
+  margin-bottom: -3px; /* Cover the border line of content */
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================================
+   DRAG REACTION ( The Magic Part )
+   ========================================= */
+
+/* Tab Content */
+.tab-content {
+  display: none;
+}
+
+/* 2. SHOW only the one with the 'active' class */
+.tab-content.active {
+  display: block;
+}
+/* Skills & Inventory Styles */
+.skill-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+}
+.skill-list li {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-base);
+}
+.stars {
+  color: var(--pink);
+  font-size: 1.5rem;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 16px;
+}
+.item {
+  border: 3px dashed var(--yellowgreen);
+  padding: 15px;
+  margin-top: 30px;
+  text-align: center;
+  font-size: var(--font-size-base);
+  color: var(--text-main);
+  background: #ffffff;
+  transition: transform 0.2s;
+  cursor: help;
+}
+.item:hover {
+  transform: scale(1.05);
+  background: var(--pink);
+  color: #ffffff;
+}
+.item:active {
+  transform: scale(0.95);
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 800px) {
+  .about-section {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+    padding: 20px 10px;
+    display: block;
+  }
+
+  /* 2. Disable the "Floating/Draggable" behavior */
+  .character-card {
+    position: relative !important; /* Force it back into the page flow */
+
+    /* Reset any positions set by the Drag JavaScript */
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+
+    box-shadow: none; /* Optional: simplify shadow for mobile */
+  }
+  .info-container {
+    margin-top: -60px;
+  }
+
+  .window-header {
+    cursor: none; /* Show normal cursor */
+  }
+
+  .rpg-content {
+    grid-template-columns: 1fr; /* Stack avatar on top of info */
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .avatar-container {
+    max-width: 350px;
+    height: 80%;
+    margin: 0 auto;
+    scale: 0.8;
+  }
+
+  #likes,
+  .skill-list li,
+  .item,
+  .active {
+    text-align: flex-start;
+    font-size: calc(var(--font-size-base));
+    margin-bottom: 10px;
+    padding: 20px;
+  }
+  .rpg-tabs {
+    scale: 0.8;
+    justify-content: flex-start;
+    gap: 8px;
+    padding-left: 10px;
+    height: 10px;
+    top: 15px;
+  }
+  .tab-btn {
+    height: 35px;
+    font-size: 1rem;
+    top: -12px;
+  }
+  .char-name {
+    text-align: center;
+    font-size: calc(var(--font-heading-size) * 1.75);
+  }
+  .char-class {
+    text-align: center;
+    font-size: var(--font-heading-size);
+  }
+}
+/* --- RETRO POPUP STYLES --- */
+span#x {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+}
+span#x:hover {
+  color: var(--pink);
+}
+.retro-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* Start centered but hidden */
+  transform: translate(-50%, -50%) scale(0);
+
+  width: 300px;
+  background: rgb(254, 241, 220); /* Classic Windows Grey */
+  border: 3px solid #fff;
+  border-radius: 10px;
+  border-right-color: #000;
+  border-bottom-color: #000;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  z-index: 99999; /* On top of EVERYTHING */
+  font-family: "VT323", monospace;
+  display: flex;
+  flex-direction: column;
+
+  /* We don't use display:none because we want to animate the transform */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* THE POPUP ANIMATION STATE */
+.retro-popup.active {
+  pointer-events: auto;
+  opacity: 1;
+  /* The bounce effect */
+  animation: popup-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popup-bounce {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Header */
+.popup-header {
+  background: var(--dark-green);
+  color: white;
+  padding: 2px 5px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+/* Body */
+.popup-body {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: white;
+}
+
+.error-icon {
+  font-size: 2.5rem;
+}
+
+.error-msg p {
+  font-size: 1.2rem;
+  color: black;
+  margin: 0 0 10px 0;
+}
+
+/* The OK Button */
+.ok-btn {
+  background: #675858;
+  border: 3px solid #fff;
+  border-right-color: #000;
+  border-bottom-color: #000;
+  padding: 5px 15px;
+  font-family: inherit;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.ok-btn:active {
+  border: 2px solid #fa0000;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  transform: translate(1px, 1px);
+}
+
+.cancel-btn {
+  background: var(--pink);
+  border: 3px solid #fff;
+  border-right-color: #000;
+  border-bottom-color: #000;
+  padding: 5px 15px;
+  font-family: inherit;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.cancel-btn:active {
+  background-color: pink;
+  border: 2px solid #000;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  transform: translate(1px, 1px);
+}
+/* --- BIO STYLES --- */
+#bio.active {
+  display: block; /* <--- Use block instead! */
+  /* flex-direction: column; <--- DELETE THIS LINE (Block does this automatically) */
+
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+@media (max-width: 420px) {
+  #bio.active {
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+  }
+}
+.bio-text {
+  margin-top: 5px;
+  margin: 10px;
+  line-break: normal;
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--text-main);
+}
+
+.bio-text strong {
+  color: var(--pink);
+  cursor: pointer;
+  font-weight: 500;
+}
+/* --- CUSTOM CUTE SCROLLBAR --- */
+/* The width of the scrollbar */
+#bio::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* The background of the scrollbar rail */
+#bio::-webkit-scrollbar-track {
+  background: #fff5f5; /* Very light pink */
+  border-radius: 6px;
+  border: 1px solid #ffcaca;
+}
+
+/* The moving part of the scrollbar */
+#bio::-webkit-scrollbar-thumb {
+  background-color: var(--pink); /* Your pink variable */
+  border-radius: 6px;
+  border: 2px solid #fff5f5; /* Makes it look like a capsule */
+}
+
+/* Hover effect */
+#bio::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color);
+}
+/* RPG Dialogue Box */
+.typewriter {
+  font-size: var(--font-subheading-size);
+  color: rgb(160, 0, 0);
+  font-weight: 900;
+  overflow: hidden; /* Hide text until typed */
+  border-right: 3px solid var(--yellowgreen); /* The cursor */
+  white-space: nowrap; /* Keep on one line */
+  margin: 10px;
+  width: 0; /* Start at 0 width */
+  animation: typing 5.5s steps(30, end) infinite,
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+
+  45% {
+    width: 100%;
+  }
+
+  70% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--secondary-color);
+  }
+}
+
+@media (max-width: 450px) {
+  .typewriter {
+    white-space: normal; /* Allow wrapping */
+    border-right: none; /* Remove cursor */
+    width: 100%; /* Show all text immediately */
+    animation: none; /* Disable animation */
+  }
+}
+
+/* --- MAXIMIZE / FULLSCREEN MODE --- */
+
+.is-maximized {
+  /* Force width (85% of screen) */
+  width: 95vw !important;
+  height: 99vh !important;
+  max-width: none !important;
+  max-height: none !important;
+
+  /* --- CENTERING LOGIC --- */
+  /* 1. Move the left edge to the middle of the screen */
+  left: 50% !important;
+  top: 50% !important;
+  /* 2. Pull the window back by half its own width to center it */
+  /* We use translateX because height is 100vh (so vertical centering isn't needed) */
+  transform: translateX(-50%) translateY(-50%) !important;
+
+  /* 3. Ensure Top is 0 */
+
+  margin: 0 !important;
+
+  /* Ensure it sits on top of everything */
+  z-index: 99999 !important;
+  position: fixed !important;
+}
+/* Make sure the internal body stretches to fill the new space */
+/* --- MAXIMIZED CONTENT STYLES --- */
+
+.is-maximized .rpg-content {
+  /* Was: 300px 1fr */
+  grid-template-columns: 1fr 1fr !important;
+
+  /* Center items vertically */
+  align-items: center;
+
+  /* Add space between Avatar and Text */
+  gap: 50px;
+
+  /* Ensure the grid actually fills the height of the window */
+  height: 90%;
+}
+
+/* 2. Remove the size limits on the Text Box so it fills the right side */
+.is-maximized #bio {
+  max-width: none !important; /* Allow it to grow */
+  width: 100%;
+
+  /* Optional: Make the text box tall enough to read easily */
+  max-height: 80vh !important;
+}
+
+/* 3. Center the Avatar/Stats in the left column */
+.is-maximized .avatar-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the image and bars */
+  justify-content: center;
+}
+
+/* 4. Make the Avatar Image bigger in full screen (Optional) */
+.is-maximized .pixel-frame {
+  max-width: 400px; /* Make the picture larger */
+}
+.is-maximized .status-bars {
+  /* 1. Use 100% of the column space, but cap it at a wider size for desktop */
+  width: 100%;
+  max-width: 500px; /* 300px is very small for Desktop. 500px looks more "Heroic" */
+
+  /* 2. Don't force fixed height. Use padding so it grows if text gets bigger */
+  height: auto;
+  padding: 25px; /* Adds the "height" visually by adding breathing room */
+
+  /* 3. Center the box itself in the column */
+  margin: 0 auto;
+
+  /* 4. Make text bigger to match the huge screen */
+  font-size: 1.5rem;
+}
+/* FIX 3: Ensure the rows inside also stretch */
+.is-maximized .bar-row {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center; /* Keeps HP left and Numbers right */
+}
+
+/* --- WORKS SECTION: LEVEL SELECT --- */
+
+.works-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(0rem, 4vw, 3rem);
+  color: var(--text-main);
+}
+
+.level-select-container {
+  max-width: 1920px;
+  min-height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.level-header {
+  text-align: center;
+  font-family: "VT323", monospace;
+  background-color: transparent;
+}
+
+.level-header h2 {
+  font-size: var(--font-heading-size);
+  color: var(--yellowgreen);
+  text-shadow: 4px 2px 0px #b23d3d;
+  margin-bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
+
+/* --- MISSION BRIEFING BOX --- */
+
+.mission-briefing {
+  background: #3f0000;
+  border: 4px solid var(--pink);
+  padding: 20px;
+  font-family: "VT323", monospace;
+  position: relative;
+  min-height: 120px;
+  border-radius: 15px;
+  box-shadow: 10px 10px 0px rgba(96, 193, 52, 0.5);
+}
+
+.briefing-tag {
+  background: var(--pink);
+  border-radius: 5px;
+  color: whitesmoke;
+  display: inline-block;
+  padding: 4px 10px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#brief-title {
+  font-size: 2rem;
+  color: var(--yellowgreen);
+  margin: 0;
+}
+
+#brief-desc {
+  font-size: 1.4rem;
+  color: whitesmoke;
+  margin: 5px 0;
+}
+
+.brief-stats {
+  font-size: 1.2rem;
+  color: greenyellow;
+  margin-top: 10px;
+  border-top: 1px dashed #333;
+  padding-top: 5px;
+}
+
+#explore {
+  display: block;
+  background-color: var(--pink);
+  color: whitesmoke;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-family-base);
+  font-size: clamp(0.8rem, 4vw, 1.2rem);
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  min-width: 100px;
+  height: 50px;
+  text-align: center;
+  align-items: center;
+}
+
+#explore:hover {
+  background-color: var(--yellowgreen);
+  color: var(--text-main);
+}
+#explore:active {
+  background-color: rgb(0, 225, 255);
+  color: whitesmoke;
+}
+/* Mobile Tweaks */
+@media (max-width: 420px) {
+  .level-header h2 {
+    font-size: 3rem;
+  }
+  .world-grid {
+    grid-template-columns: 1fr;
+  } /* Stack cards on phone */
+}
+/* --- THE MAP GRID --- */
+/* --- THE GEOCITIES MAP GRID --- */
+.world-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  padding: 5px;
+  margin-bottom: 50px;
+  /* No border on the grid itself, the windows ARE the border */
+}
+
+.world-card {
+  background: transparent;
+  padding: 0px;
+  font-family: "VT323", monospace;
+  position: relative;
+  height: 300px; /* Fixed height for uniformity */
+  border-radius: 10px 10px 0 0;
+  box-shadow: 10px 10px 0px rgba(96, 193, 52, 0.5);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.world-card:hover {
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.5);
+  scale: 1.02;
+  z-index: 10;
+}
+.card-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers the whole card without stretching */
+
+  opacity: 0;
+  z-index: -10;
+
+  /* Smooth fade and slow zoom effect */
+  transition: opacity 0.2s ease, transform 3s ease;
+  filter: grayscale(20%); /* Optional: adds a slight retro vibe */
+}
+.world-card:hover .card-bg-img {
+  opacity: 1;
+  border-radius: 10px;
+}
+
+.world-card:hover {
+  background-color: #000;
+  border-color: var(--pink); /* Highlight border color */
+  scale: 1.05;
+  margin-bottom: 20px;
+}
+
+.world-card:hover .win-content h3,
+.world-card:hover .win-content span {
+  color: var(--yellowgreen);
+  margin: 0;
+  font-size: var(--font-size-base);
+  padding: 5px;
+
+  text-align: center;
+  line-height: 30px;
+  border-radius: 10px;
+  background-color: rgba(38, 38, 38, 0.588);
+}
+
+/* 2. The Title Bar (Blue Gradient) */
+.window-header-works {
+  background-color: var(--pink);
+  border-radius: 10px 10px 0 0;
+  color: whitesmoke;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-base);
+  z-index: 10;
+}
+.window-header-works.forest {
+  background-color: rgb(112, 183, 5);
+}
+.window-header-works.space {
+  background-color: var(--pink);
+}
+.window-header-works.tech {
+  background-color: rgb(255, 120, 3);
+}
+.window-header-works.clouds {
+  background-color: rgb(6, 226, 208);
+}
+.win-icon {
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
+}
+
+/* --- THEMES (Fake Tiled Backgrounds) --- */
+
+/* Forest: Green checkered pattern */
+.theme-forest {
+  background-color: #e0ffe0;
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Space: Black with stars */
+.theme-space {
+  background-color: #ffdbdb;
+  /* background-image: radial-gradient(white 2px, transparent 1px),
+    radial-gradient(white 2px, transparent 1px); */
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
+  color: var(--text-main);
+  font-size: var(--font-size-base);
+}
+
+/* Tech: Grid lines */
+.theme-tech {
+  background-color: rgb(255, 242, 232);
+  background-size: 10px 10px;
+  color: var(--text-main);
+}
+
+/* Clouds: Blue with CSS clouds */
+.theme-clouds {
+  background-color: #c0fff1;
+  background-image: radial-gradient(
+      circle at 20% 30%,
+      #ffffff 15%,
+      transparent 40%
+    ),
+    radial-gradient(circle at 70% 50%, #ffffff 15%, transparent 40%),
+    radial-gradient(circle at 50% 80%, #ffffff 15%, transparent 40%);
+  background-position: 0 0;
+  color: var(--text-main);
+}
+
+/* --- Content Styling --- */
+.win-content {
+  padding: 20px 20px 20px 20px;
+  font-size: var(--font-size-base);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
+  height: auto;
+  margin-top: 25px;
+}
+
+.center-img {
+  font-size: 3rem;
+  margin: 10px 0;
+  animation: bounce 2s infinite;
+}
+
+.win-link {
+  color: var(--pink);
+  text-decoration: underline;
+  font-size: var(--font-size-base);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  margin-bottom: auto; /* Pushes text to bottom */
+}
+.win-link:visited {
+  color: rgb(110, 0, 64);
+}
+.win-link:active {
+  color: greenyellow;
+}
+
+/* Mobile Tweaks */
+@media (max-width: 420px) {
+  .world-grid {
+    grid-template-columns: 1fr; /* Stack 1 column on phone */
+  }
+  .geo-window {
+    height: auto;
+    min-height: 250px;
+  }
+}
+
+/* --- CONTACT SECTION: WHIMSICAL STATIONERY --- */
+.contact-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background: transparent;
+}
+
+/* The Paper Container */
+.letter-container {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  animation: float-paper 6s ease-in-out infinite;
+}
+
+/* The Main Paper */
+.stationery-paper {
+  background-color: rgb(203, 255, 239);
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0 0 0 3px var(--dark-red), 15px 15px 3px rgba(200, 77, 95, 0.4);
+  position: relative;
+}
+
+.letter-header {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: griffy, cursive;
+  font-size: calc(var(--font-heading-size) * 1.8);
+  color: var(--pink);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.letter-header h2 {
+  font-size: var(--font-heading-size);
+  font-family: griffy, cursive;
+  margin: 0;
+  text-shadow: 4px 4px 0px #fff;
+  color: var(--dark-red);
+}
+
+.stamp-icon {
+  font-size: var(--font-subheading-size);
+  animation: spin-slow 10s linear infinite;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 15px;
+  font-family: "VT323", monospace;
+  font-size: var(--font-size-base);
+  color: var(--dark-red);
+}
+
+.cute-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  border-bottom: 2px dashed var(--pink);
+  font-family: "VT323", monospace;
+  font-size: var(--font-size-base);
+  color: #555;
+  margin-top: 10px;
+  padding: 10px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.cute-input:focus {
+  border-bottom: 2px solid var(--yellowgreen);
+  color: var(--dark-red);
+}
+
+.cute-divider {
+  width: 100%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--pink) 0,
+    var(--pink) 5px,
+    transparent 5px,
+    transparent 10px
+  );
+  margin: 10px 0;
+}
+
+/* The Lined Paper Text Area */
+.message-group {
+  margin-top: 40px;
+  background: rgb(255, 255, 255); /* White box for text */
+  border: 3px solid var(--dark-red);
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+/* Create the "Notebook Lines" effect */
+.cute-textarea {
+  width: 100%;
+  height: 150px;
+  border: none;
+  line-height: 30px; /* Matches the gradient lines */
+  font-family: "VT323", monospace;
+  font-size: var(--font-size-base);
+  padding: 0 10px;
+  outline: none;
+  resize: none;
+  color: var(--dark-red);
+}
+
+/* Footer & Button */
+.letter-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.heart-btn {
+  background: var(--pink);
+  color: white;
+  font-family: "VT323", monospace;
+  font-size: var(--font-size-base);
+  border: 2px solid white;
+  border-radius: 30px;
+  padding: 8px 30px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heart-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+  background: var(--yellowgreen);
+  color: var(--text-main);
+}
+
+.heart-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 0 0;
+}
+
+@media (max-width: 550px) {
+  .heart-btn {
+    width: 40%;
+    padding: 8px 20px;
+    font-size: clamp(12px, 4vw, 16px);
+  }
+  .heart-btn span {
+    display: none;
+  }
+}
+
+.decor-sticker {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  gap: 50px;
+  filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.1));
+}
+.decor-sticker img {
+  width: clamp(10px, 10vw, 50px);
+  height: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 620px) {
+  .decor-sticker {
+    position: absolute;
+    left: 32%;
+    gap: 10px;
+    scale: 0.8;
+  }
+}
+
+/* Floating Decorations outside the paper */
+.bg-decoration-1,
+.bg-decoration-2 {
+  position: absolute;
+  font-size: 4rem;
+  opacity: 1;
+  z-index: 4;
+  animation: float-medium 4s ease-in-out infinite;
+}
+
+.bg-decoration-1 {
+  top: -20px;
+  left: -30px;
+  transform: rotate(-15deg);
+}
+.bg-decoration-2 {
+  bottom: -20px;
+  right: -30px;
+  transform: rotate(15deg);
+}
+
+@keyframes float-paper {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(250deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile Tweaks */
+@media (max-width: 420px) {
+  .stationery-paper {
+    padding: 20px;
+  }
+  .letter-header h2 {
+    font-size: 2rem;
+  }
+}
+
+/* --- CINEMA SCREEN (Bigger & Centered) --- */
+.cinema-screen {
+  position: relative;
+  width: 100%; /* Full width */
+  max-width: none; /* REMOVED the 800px limit */
+  margin: 0; /* Removed auto margins since it fills the space */
+
+  aspect-ratio: 16 / 9;
+
+  background: #000;
+  border: 3px solid #5c3a21;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Ensure inner items fit perfectly */
+#main-video-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
+#main-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  transition: all 0.4s ease;
+}
+
+/* Play Button Styling */
+.play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  pointer-events: none; /* Click passes through to link */
+}
+
+.play-circle {
+  width: 80px;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 3px solid #b6ffea;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 10px auto;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.play-icon {
+  font-size: 2.5rem;
+  color: #b6ffea;
+  margin-left: 5px; /* Optical center */
+}
+
+.play-text {
+  font-family: "VT323", monospace;
+  font-size: 1.2rem;
+  color: #fff;
+  background: #5c3a21;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Hover Effects */
+.cinema-screen:hover #main-preview-image {
+  opacity: 1;
+  transform: scale(1.02);
+}
+.cinema-screen:hover .play-circle {
+  background: #b6ffea;
+  transform: scale(1.1);
+}
+.cinema-screen:hover .play-icon {
+  color: #5c3a21;
+}
+
+/* --- PLAYLIST & HEADINGS --- */
+.retro-heading {
+  font-family: "VT323";
+  margin: 0 0 10px 0;
+  color: #b6ffea;
+  border-bottom: 2px dashed #555;
+  padding-bottom: 5px;
+}
+
+.tape-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* --- NEW: INFO BOX STYLES --- */
+.video-details-panel {
+  background: #1a1a1a;
+  border: 2px solid #5c3a21;
+  padding: 15px;
+  font-family: "VT323", monospace;
+  border-radius: 5px;
+}
+
+.video-details-panel h2 {
+  margin: 0 0 10px 0;
+  color: #ffb6b9; /* Pink title */
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+}
+
+.details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-row {
+  display: flex;
+  gap: 10px;
+}
+
+.label {
+  color: #888;
+  min-width: 80px;
+  font-weight: bold;
+}
+
+.video-details-panel p {
+  margin: 0;
+  color: #ddd;
+  font-size: 1.1rem;
+}
+
+/* --- EXTRA SCREENSHOTS GRID (Gallery Style) --- */
+.preview-strip {
+    /* 1. Use Grid instead of Flex */
+    display: grid;
+    /* Creates columns that fill space (min 150px wide) */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 30px; /* Space between items */
+
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dashed #444; /* Separator from video */
+    width: 100%;
+}
+
+/* The Card Container */
+.strip-item {
+    position: relative;
+    cursor: pointer;
+    background: #230909; /* Dark red frame */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    
+    /* Animation for "Lift" effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect: Lift Up */
+.strip-item:hover {
+    transform: translateY(-5px); /* Moves up */
+    box-shadow: 0 10px 15px rgba(0,0,0,0.5); /* Bigger shadow */
+    z-index: 10;
+}
+
+/* The Image */
+.strip-item img {
+    width: 100%;
+    height: 120px; /* Fixed height for uniformity */
+    object-fit: cover; /* Crops image cleanly */
+    display: block;
+    border-radius: 10px;
+    
+}
+
+/* Optional Label Styling */
+.strip-label {
+    display: block;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    color: #0f0606;
+    text-align: center;
+    margin-top: 5px;
+  
+}
+
+/* --- TRY IT YOURSELF BUTTON --- */
+.action-row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* Aligns button to the left */
+}
+
+.try-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    /* Retro Button Look */
+    background-color: yellowgreen; 
+    color: white;
+    font-family: 'VT323', monospace;
+    font-size: 1.4rem;
+    text-decoration: none;
+    padding: 10px 25px;
+    border: 2px solid white;
+    border-radius: 10px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.5); /* Hard shadow */
+    transition: all 0.2s ease;
+}
+
+/* Hover Effect: "Presses" the button down */
+.try-btn:hover {
+    transform: translate(2px, 2px); /* Moves down-right */
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.5); /* Shadow gets smaller */
+    background-color: #ff6b9d; /* Slightly lighter pink */
+}
+
+/* Blinking Icon Animation */
+.blink-icon {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+.mobile-nav {
+  display: none;
+}
+
+.window-body {
+  padding: 15px;
+  flex-direction: column;
+  gap: 15px;
+}
+.cinema-playlist {
+  display: none; /* Hide playlist on small screens */
+}
+/* 3. Show & Style the Arrows */
+.mobile-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a1a;
+  border: 2px solid #5c3a21;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.nav-arrow {
+  background: #5c3a21;
+  color: white;
+  border: none;
+  font-family: "VT323", monospace;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nav-arrow:active {
+  background: #b6ffea;
+  color: #5c3a21;
+}
+
+.nav-label {
+  color: #b6ffea;
+  font-family: "VT323", monospace;
+  letter-spacing: 2px;
+}
+
+.details-grid {
+  flex-direction: column;
+  gap: 10px;
+}
+/* FORCE VERTICAL STACKING */
+.window-body {
+  display: flex !important;
+  flex-direction: column !important; /* This forces Top-to-Bottom layout */
+  gap: 15px;
+  padding: 20px;
+  background-color: #2b2b2b;
+  color: white;
+}
+
+/* Ensure the screen takes full width */
+.cinema-screen {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.cinema-playlist {
+  display: none !important;
+}
+
+/* Ensure the mobile nav is visible on mobile */
+.mobile-nav {
+  display: flex !important;
+}
+
+/* --- ART GALLERY SECTION --- */
+
+.minimal-gallery {
+  width: 100%;
+  max-width: 1400px; /* Limits width on huge screens */
+  margin: 0 auto;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+.gallery-title {
+  text-align: center;
+  font-family: var(--font-family-base); /* Keep your retro font */
+  font-size: 3rem;
+  color: var(--dark-red);
+  margin-bottom: 40px;
+  opacity: 0.8;
+}
+
+/* --- THE GRID --- */
+/* --- MASONRY LAYOUT (Pinterest Style) --- */
+.gallery-grid {
+  /* Create vertical columns */
+  column-count: 3;
+  column-gap: 30px; /* Space between columns */
+
+  /* Optional: Ensure it fills the width */
+  width: 100%;
+}
+
+/* Responsive: Reduce columns on smaller screens */
+@media (max-width: 1000px) {
+  .gallery-grid {
+    column-count: 2;
+  }
+}
+@media (max-width: 600px) {
+  .gallery-grid {
+    column-count: 1;
+  }
+}
+
+/* --- ART ITEM CARD --- */
+/* --- ART ITEM CARD (Base State) --- */
+.art-item {
+  /* CRITICAL: Prevents the card from being cut in half at the bottom of a column */
+  break-inside: avoid;
+  margin-bottom: 30px; /* Adds space at the bottom of each item */
+
+  /* Keep your existing style */
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  /* Keep animation logic */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out,
+    box-shadow 0.3s ease;
+}
+
+/* --- SCROLL ANIMATION VISIBLE STATE --- */
+/* This class is added by JavaScript when the item appears on screen */
+.art-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- IMAGE STYLING --- */
+/* THE IMAGE FIX */
+.art-item img {
+  width: 100%; /* Fill the width of the card */
+  height: auto; /* <--- THIS IS KEY: Allows height to adjust naturally */
+  display: block; /* Removes weird gap at bottom */
+  border-radius: 8px; /* Smooth corners */
+}
+
+/* --- HOVER EFFECTS --- */
+.art-item:hover {
+  /* Lift the card up */
+  transform: translateY(-10px);
+  /* Stronger shadow for depth */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.art-item:hover img {
+  /* Zoom the image in slightly */
+  transform: scale(1.1);
+}
+/* Minimal Title on Hover (Optional) */
+.art-info {
+  padding: 15px;
+  text-align: center;
+  background: #fff;
+}
+
+.art-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: normal;
+  font-family: var(--font-family-base);
+}
+
+/* --- CLEAN LIGHTBOX OVERLAY --- */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* Dark focus background */
+  z-index: 99999;
+
+  display: none; /* Hidden */
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Show State */
+.lightbox-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-content {
+  max-width: 90%;
+  max-height: 90vh;
+  position: relative;
+  text-align: center;
+}
+
+#lb-img {
+  max-width: 100%;
+  max-height: 80vh; /* Leave room for text */
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.lb-details {
+  color: white;
+  margin-top: 15px;
+  font-family: var(--font-family-base);
+}
+
+#lb-title {
+  font-size: 2rem;
+  margin: 0;
+  color: var(--yellowgreen); /* Subtle pop of your theme color */
+}
+#lb-desc {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.close-lightbox {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.close-lightbox:hover {
+  color: var(--pink);
+}
+
+/* --- RETRO BACK BUTTON --- */
+.back-btn {
+  position: fixed; /* Stays in place when scrolling */
+  top: 50px;
+  left: 20px;
+  z-index: 1000; /* Stays on top of images */
+
+  /* Typography */
+  font-family: "VT323", monospace;
+  font-size: var(--font-subheading-size);
+  text-decoration: none;
+  color: var(--dark-red); /* Uses your existing variable */
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+
+  /* Button Shape */
+  padding: 8px 15px;
+  border: 2px solid var(--dark-red);
+  border-radius: 50px; /* Rounded capsule shape */
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+
+  /* Animation */
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-btn .arrow {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+/* Hover Effects */
+.back-btn:hover {
+  background: var(--pink); /* Your pink theme color */
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.15);
+  border-color: white;
+}
+
+.back-btn:hover .arrow {
+  transform: translateX(-4px); /* Arrow wiggles left */
+}
+
+/* --- MOBILE TWEAK --- */
+@media (max-width: 600px) {
+  .back-btn {
+    top: 50px;
+    left: 10px;
+    font-size: 1.2rem;
+    padding: 5px 12px;
+  }
+}

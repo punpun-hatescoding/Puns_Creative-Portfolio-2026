@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pun's Folio</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Audiowide&family=DotGothic16&family=DynaPuff:wght@400..700&family=Griffy&family=Henny+Penny&family=Irish+Grover&family=Jacquard+12&family=Jockey+One&family=Kirang+Haerang&family=Love+Ya+Like+A+Sister&family=Mountains+of+Christmas:wght@400;700&family=Russo+One&family=UnifrakturMaguntia&family=VT323&display=swap" rel="stylesheet">
+     <title>Hi! I'm Pun- a traditional and digital artist and illustrator who also loves to animate and create interactive experiences.</title>
+    <meta name="Hello, world! I'm Pun. 
+    I spend my days turning daydreams into 2D illustrations, obsessed with bringing chaos, whimsy, and cutesy stuff back to the web. 
+    Right now, I'm on a quest to master Motion Graphics and  UI/UX — teaching my static drawings how to move and interact with the world. 
+    My goal is to make the design weirder, cuter, and fun. 
+    I also love to explore and practice all kinds of traditional art mediums whether it's oil pastel, gouache, oil paint, lino-cutting, silk painting, or tattooing. 
+    I would describe my artstyles as sketchy, consisting of harsh strokes, no lines, and vibrant colors."
+    content="A passionate artist and illustrator specializing in traditional and digital mediums, dedicated to creating whimsical and vibrant artworks while exploring motion graphics and UI/UX design.">
+  </head>
+
+  <body>
+    <div id="npc-follower"><img src="images/cursor.svg" alt="" /></div>
+    <div class="sparkle"></div>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <a href="index.html"
+          ><div class="logo">
+            <img src="main-images/fat-cat.png" alt="Pun's logo" /></div
+        ></a>
+        <!-- Dropdown Menu -->
+        <div class="dropdown-wrapper">
+          <button class="dropdown-btn">Menu ▼</button>
+          <nav class="nav dropdown-menu" id="site-navigation">
+            <a href="about.html">🌟 About Me</a>
+            <a href="works.html">🛠 Works</a>
+            <a href="contact.html">📬 Contact</a>
+          </nav>
+        </div>
+      </header>
+     
+        <section id="contact" class="contact-section">
+           <form
+        action="https://formspree.io/f/mykyzjjp"
+        method="POST"
+        class="letter-container">
+
+            <div class="washi-tape"></div>
+
+            <div class="stationery-paper">
+              <div class="letter-header">
+                <span class="stamp-icon">💌</span>
+                <h2>Send a Note</h2>
+              </div>
+
+              <div class="form-group">
+                <label>To: Pun Nguyen</label>
+                <div class="cute-divider"></div>
+              </div>
+
+              <div class="form-group">
+                <label>From:</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  class="cute-input"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Subject:</label>
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Let's collab!"
+                  class="cute-input"
+                />
+              </div>
+
+              <div class="message-group">
+                <textarea
+                  name="message"
+                  class="cute-textarea"
+                  placeholder="Write your message here..."
+                  required
+                ></textarea>
+              </div>
+
+              <div class="letter-footer">
+                <button type="submit" id="send-btn" class="heart-btn">
+                  <span class="btn-icon">🩵</span>Send it!
+                </button>
+                <div class="decor-sticker">
+                  <a
+                    href="https://www.instagram.com/nhoamnhoam.chocomint/"
+                    target="_blank"
+                    ><img src="previews/instagram.png" alt="instagram"
+                  /></a>
+                  <a href="mailto:nguyennann123@gmail.com"
+                    ><img
+                      src="previews/mail.png"
+                      style="transform: scale(1.3)"
+                      alt="gmail"
+                  /></a>
+                  <a
+                    href="https://vimeo.com/user252311436?fl=pp&fe=sh"
+                    target="_blank"
+                    ><img src="previews/vimeo.png" alt="vimeo"
+                  /></a>
+                  <a
+                    href="https://www.linkedin.com/in/th%C3%BAy-an-nguy%E1%BB%85n-710629292/"
+                    target="_blank"
+                    ><img
+                      src="previews/linkedin.png"
+                      style="transform: scale(1.2)"
+                      alt="linkedin"
+                  /></a>
+                </div>
+              </div>
+
+            <div class="bg-decoration-1">🍄</div>
+            <div class="bg-decoration-2">🍄</div>
+           </form>
+        </section>
+    <script src="animate.js"></script>
+  </body>
+</html>

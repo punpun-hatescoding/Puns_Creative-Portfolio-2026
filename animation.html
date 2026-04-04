@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pun's Folio</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Audiowide&family=DotGothic16&family=DynaPuff:wght@400..700&family=Griffy&family=Henny+Penny&family=Irish+Grover&family=Jacquard+12&family=Jockey+One&family=Kirang+Haerang&family=Love+Ya+Like+A+Sister&family=Mountains+of+Christmas:wght@400;700&family=Russo+One&family=UnifrakturMaguntia&family=VT323&display=swap" rel="stylesheet">
+     <title>Hi! I'm Pun- a traditional and digital artist and illustrator who also loves to animate and create interactive experiences.</title>
+    <meta name="Hello, world! I'm Pun. 
+    I spend my days turning daydreams into 2D illustrations, obsessed with bringing chaos, whimsy, and cutesy stuff back to the web. 
+    Right now, I'm on a quest to master Motion Graphics and  UI/UX — teaching my static drawings how to move and interact with the world. 
+    My goal is to make the design weirder, cuter, and fun. 
+    I also love to explore and practice all kinds of traditional art mediums whether it's oil pastel, gouache, oil paint, lino-cutting, silk painting, or tattooing. 
+    I would describe my artstyles as sketchy, consisting of harsh strokes, no lines, and vibrant colors."
+    content="A passionate artist and illustrator specializing in traditional and digital mediums, dedicated to creating whimsical and vibrant artworks while exploring motion graphics and UI/UX design.">
+    <style>
+      header {
+        display: none;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="npc-follower"><img src="images/cursor.svg" alt="" /></div>
+    <div class="sparkle"></div>
+    <a href="works.html" class="back-btn">
+      <span class="arrow">←</span> Return
+    </a>
+
+    <div id="window-cinema" class="project-window hidden">
+
+
+      <div
+        class="window-body"
+        style="
+          background-color: #2b2b2b;
+          color: white;
+          display: flex;
+          flex-direction: row;
+          gap: 20px;
+        "
+      >
+        <div class="cinema-screen" style="max-width: 100%; width: 100%; top: 10px;">
+          <a
+            id="main-video-link"
+            href="https://vimeo.com/manage/videos/1149119631"
+            target="_blank"
+          >
+            <img
+              id="main-preview-image"
+              src="previews/caviar2.jpeg"
+              alt="Click to Watch"
+            />
+
+            <div class="play-overlay">
+              <div class="play-circle">
+                <span class="play-icon">▶</span>
+              </div>
+              <span class="play-text">Watch On Vimeo</span>
+            </div>
+          </a>
+        </div>
+        <div class="mobile-nav">
+          <button class="nav-arrow" onclick="navigatePlaylist(-1)">
+            ◀ PREV
+          </button>
+          <span class="nav-label" style="text-align: center"
+            >Channel Select</span
+          >
+          <button class="nav-arrow" onclick="navigatePlaylist(1)">
+            NEXT ▶
+          </button>
+        </div>
+      </div>
+      <div class="cinema-playlist">
+        <h3 class="retro-heading">> SELECT_TAPE:</h3>
+
+        <div class="tape-grid">
+          <button
+            class="tape-btn active"
+            onclick="updatePlayer('1149119631', 'previews/caviar2.jpeg', 'Caviar', 'A short 2D animation about a desperate Tuna who tries to steal a tin of Caviar (an illegal drug of the ocean).', 'Toon Boom Harmony', this)"
+          >
+            <span class="tape-icon">📼</span>
+            <div class="tape-info">
+              <strong>Caviar</strong>
+              <span style="font-size: 0.8rem; color: #aaa"
+                >Short 2D Animation</span
+              >
+            </div>
+          </button>
+
+          <button
+            class="tape-btn"
+            onclick="updatePlayer('1149123743', 'previews/morph1.jpeg', 'Morph', 'A traditional animation study on shape shifting and fluid transitions.', 'Pen on Paper', this, ['previews/morph2.jpeg', 'previews/morph3.jpeg', 'previews/morph4.jpeg', 'previews/morph5.jpeg'])"
+          >
+            <span class="tape-icon">📼</span>
+            <div class="tape-info">
+              <strong>Morph</strong>
+              <span style="font-size: 0.8rem; color: #aaa"
+                >Traditional Animation</span
+              >
+            </div>
+          </button>
+
+          <button
+            class="tape-btn"
+            onclick="updatePlayer('1149124198', 'previews/flavors2.jpeg', 'Flavors of Home', 'An animatic about a college student- studying far from home and her memories of home-cooked meals.', 'Procreate, After Effects', this, ['previews/flavors1.jpeg', 'previews/flavors2.jpeg', 'previews/flavors3.jpeg'])"
+          >
+            <span class="tape-icon">📼</span>
+            <div class="tape-info">
+              <strong>Flavors of Home</strong>
+              <span style="font-size: 0.8rem; color: #aaa">Animatic</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="video-details-panel">
+        <h2 id="video-title">Caviar</h2>
+        <div class="details-grid">
+          <div class="detail-row">
+            <span class="label">DESCRIPTION:</span>
+            <p id="video-desc">
+              A short 2D animation about a desperate Tuna who tries to steal a tin of Caviar (an illegal drug of the ocean).
+            </p>
+          </div>
+          <div class="detail-row">
+            <span class="label">TOOLS:</span>
+            <p id="video-tools" style="color: #b6ffea">After Effects, Audacity, Procreate, Clip Studio Paint</p>
+          </div>
+        </div>
+      </div>
+      <div class="preview-strip" id="screenshot-container">
+        <div class="strip-item">
+          <img src="previews/caviar1.jpeg" alt="Process 1" />
+          <span class="strip-label">Sketch</span>
+        </div>
+        <div class="strip-item">
+          <img src="previews/caviar3.jpeg" alt="Process 3" />
+          <span class="strip-label">Color Key</span>
+        </div>
+        <div class="strip-item">
+          <img src="previews/caviar4.jpeg" alt="Process 4" />
+          <span class="strip-label">Final Frame</span>
+        </div>
+        <div class="strip-item">
+          <img src="previews/caviar6.jpeg" alt="Process 6" />
+          <span class="strip-label">Final Frame</span>
+        </div>
+        <div class="strip-item">
+          <img src="previews/caviar8.jpeg" alt="Process 8" />
+          <span class="strip-label">Final Frame</span>
+        </div>
+      </div>
+    </div>
+    <script src="animate.js"></script>
+  </body>
+</html>

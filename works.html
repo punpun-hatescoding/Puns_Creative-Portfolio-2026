@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pun's Folio</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Audiowide&family=DotGothic16&family=DynaPuff:wght@400..700&family=Griffy&family=Henny+Penny&family=Irish+Grover&family=Jacquard+12&family=Jockey+One&family=Kirang+Haerang&family=Love+Ya+Like+A+Sister&family=Mountains+of+Christmas:wght@400;700&family=Russo+One&family=UnifrakturMaguntia&family=VT323&display=swap" rel="stylesheet">
+    <title>Hi! I'm Pun- a traditional and digital artist and illustrator who also loves to animate and create interactive experiences.</title>
+    <meta name="Hello, world! I'm Pun. 
+    I spend my days turning daydreams into 2D illustrations, obsessed with bringing chaos, whimsy, and cutesy stuff back to the web. 
+    Right now, I'm on a quest to master Motion Graphics and  UI/UX — teaching my static drawings how to move and interact with the world. 
+    My goal is to make the design weirder, cuter, and fun. 
+    I also love to explore and practice all kinds of traditional art mediums whether it's oil pastel, gouache, oil paint, lino-cutting, silk painting, or tattooing. 
+    I would describe my artstyles as sketchy, consisting of harsh strokes, no lines, and vibrant colors."
+    content="A passionate artist and illustrator specializing in traditional and digital mediums, dedicated to creating whimsical and vibrant artworks while exploring motion graphics and UI/UX design.">
+  </head>
+
+  <body>
+    <div id="npc-follower"><img src="images/cursor.svg" alt="" /></div>
+    <div class="sparkle"></div>
+
+    <div class="container">
+      <header>
+        <a href="index.html"><div class="logo">
+            <img src="main-images/fat-cat.png" alt="Pun's logo"/> 
+                </div></a>
+
+            <!-- Dropdown Menu -->
+            <div class="dropdown-wrapper">
+                
+                <button class="dropdown-btn">Menu ▼</button>
+                <nav class="nav dropdown-menu" id="site-navigation">
+                    <a href="about.html">🌟 About Me</a>
+                    <a href="works.html">🛠 Works</a>
+                    <a href="contact.html">📬 Contact</a>
+                </nav>
+                
+            </div>
+      </header>
+
+      <main class="works-section">
+        <div class="level-select-container">
+         <aside class="mission-briefing">
+            <div class="briefing-tag">MISSION INFO_</div>
+            <h3 id="brief-title">SELECT A WORLD...</h3>
+            <p id="brief-desc">Hover over a map to view details.</p>
+            <div class="brief-stats">
+              LOOT: <span id="brief-loot">---</span>
+            </div>
+          </aside>  
+
+          <div class="world-grid">
+            <article
+              class="world-card theme-forest"
+              data-title="Animation"
+              data-desc="Pun's 2D Animation Projects"
+              data-loot="2D Animation, Animatic, Motion Design"
+            >
+            <img src="previews/illus10.jpeg" class="card-bg-img" alt="Forest Preview">
+              <div class="win-bar">
+                <div class="window-header-works forest">
+                  <img src="main-images/fat-cat.png" class="win-icon" alt="" />
+                  <span>animation.html</span>
+                </div>
+              </div>
+              <div class="win-content">
+                <h3>Animation's World</h3>
+                <a href="animation.html" class="win-link"><button id="explore">EXPLORE >></button></a>
+                <div class="marquee">
+                  <span>★ VISITOR COUNTER: ♾️ ★</span>
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="world-card theme-space"
+              data-title="Web Design"
+              data-desc="Pun's Web Design Projects"
+              data-loot="Visual Studio Code, UI/UX Design, Creative Coding"
+            >
+              <img src="previews/essay7.jpeg" class="card-bg-img" alt="Forest Preview">
+              <div class="win-bar">
+                <div class="window-header-works space">
+                  <img src="main-images/fat-cat.png" class="win-icon" alt="" />
+                  <span>web_design.exe</span>
+    
+                </div>
+              </div>
+              <div class="win-content">
+                <h3>Web Design Project</h3>
+                <a href="webdev.html" class="win-link"><button id="explore">EXPLORE >></button></a>
+                <div class="marquee"><span>★ Creative Coding is my passion ★</span></div>
+              </div>
+            </article>
+            <article
+              class="world-card theme-tech"
+              data-title="Traditional Painting"
+              data-desc="Chaotic forest of weird creatures."
+              data-loot="Oil Painting, Gouache, Oil Pastel, Portraiture"
+            >
+              <img src="previews/self-portrait.jpeg" class="card-bg-img" alt="Forest Preview">
+              <div class="win-bar">
+                <div class="window-header-works tech">
+                  <img src="main-images/fat-cat.png" class="win-icon" alt="" />
+                  <span>traditional_painting.html</span>
+                </div>
+              </div>
+              <div class="win-content">
+         
+                <h3>Traditional Painting</h3>
+                <a href="arts.html" class="win-link"> <button id="explore">EXPLORE >></button></a>
+                <div class="marquee">
+                  <span>★ VISITOR COUNTER: ??? ★</span>
+                </div>
+              </div>
+            </article>
+            <article
+              class="world-card theme-clouds"
+              data-title="Digital Illustration"
+              data-desc="Pun's Digital Illustration Projects"
+              data-loot="Procreate, Illustrator, Photoshop"
+            >
+              <img src="previews/illus7.jpeg" class="card-bg-img" alt="Forest Preview">
+              <div class="win-bar">
+                <div class="window-header-works clouds">
+                  <img src="main-images/fat-cat.png" class="win-icon" alt="" />
+                  <span>illustration_zone.exe</span>
+                  
+                </div>
+              </div>
+              <div class="win-content">
+                <h3>Digital Illustration & Tattoos</h3>
+                <a href="illus.html" class="win-link"><button id="explore">EXPLORE >></button></a>
+                <div class="marquee"><span>★ UNDER CONSTRUCTION ★</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="animate.js"></script>
+  </body>
+</html>
