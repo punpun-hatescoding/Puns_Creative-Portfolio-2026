@@ -1542,6 +1542,7 @@ span#x:hover {
 }
 
 /* --- CONTACT SECTION: WHIMSICAL STATIONERY --- */
+/* The overall section */
 .contact-section {
   width: 100%;
   min-height: 100vh;
@@ -1664,7 +1665,7 @@ span#x:hover {
   justify-content: space-between;
   align-items: center;
   margin-top: 30px;
-  width: 100%;
+  width: 80%;
 }
 
 .heart-btn {
@@ -1709,12 +1710,12 @@ span#x:hover {
 .decor-sticker {
   display: flex;
   align-items: center;
-  margin-left: 10px;
-  gap: 50px;
-  filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.1));
+  margin-left: clamp(20px, 4vw, 300px);
+  gap: clamp(10px, 4vw, 50px);
+  filter: drop-shadow(2px 4px 0px rgba(0, 0, 0, 0.1));
 }
 .decor-sticker img {
-  width: clamp(10px, 10vw, 50px);
+  width: clamp(20px, 10vw, 100px); /* Responsive size */
   height: auto;
   align-items: center;
   justify-content: center;
@@ -1756,7 +1757,7 @@ span#x:hover {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-15px);
+    transform: translateY(-10px);
   }
 }
 
