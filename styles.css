@@ -244,6 +244,7 @@ header {
   /* Optional: Center text if links have different widths */
   justify-content: center;
   width: 100%;
+  white-space: nowrap;
 }
 
 .dropdown-menu a:hover {
@@ -251,12 +252,12 @@ header {
 }
 #site-navigation a {
   gap: 1rem;
-  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  font-size: clamp(1rem, 1.6vw, 1.5rem);
 }
 
 @media (max-width: 1000px) {
   .dropdown-menu a {
-    padding: 0.5rem 2rem;
+    padding: 0.5rem 1rem;
   }
 }
 /* HOVER / ACTIVE STATE (Popped Up Tab) */
@@ -434,6 +435,16 @@ header {
   min-width: 280px;
   height: auto;
   margin-top: 0;
+}
+
+/* Hero role subtitle - quick context for time-pressed visitors (e.g. recruiters) */
+#hero-role {
+  font-family: "VT323", monospace;
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  letter-spacing: 1px;
+  color: var(--yellowgreen);
+  text-align: center;
+  margin-top: 1.5rem;
 }
 
 /* 5. Buttons Decorations */
@@ -732,12 +743,41 @@ p#lets-start-text {
   margin: 0 0 8px 0;
   color: var(--dark-green);
 }
+.char-role {
+  color: var(--dark-red);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  margin: 0 0 6px 0;
+}
 .char-class {
   color: var(--pink);
   font-size: var(--font-subheading-size);
   margin: 0 0 20px 0;
   border-bottom: 3px dashed #ffcaca;
   padding-bottom: 20px;
+}
+.recruiter-links {
+  display: flex;
+  gap: 12px;
+  margin: -8px 0 20px 0;
+}
+.quick-link {
+  display: inline-block;
+  background-color: #ffe4c4;
+  border: 2px solid var(--dark-red);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--dark-red);
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.2s;
+}
+.quick-link:hover {
+  background-color: var(--yellowgreen);
+  transform: translateY(-2px);
 }
 /* =========================================
    RPG TABS (File Folder Style)
@@ -924,6 +964,12 @@ p#lets-start-text {
   .char-class {
     text-align: center;
     font-size: var(--font-heading-size);
+  }
+  .char-role {
+    text-align: center;
+  }
+  .recruiter-links {
+    justify-content: center;
   }
 }
 /* --- RETRO POPUP STYLES --- */
