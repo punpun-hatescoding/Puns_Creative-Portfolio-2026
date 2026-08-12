@@ -33,6 +33,7 @@ html {
   --dark-green: #0a390a;
   --dark-red: #660000;
   --pink: rgb(255, 128, 159);
+  --pink-text: rgb(199, 21, 91); /* Darker pink for readable text - passes WCAG AA (5:1) on cream backgrounds, unlike --pink (2.1:1) */
   --yellowgreen: rgb(180, 255, 128);
   --paragraph-color: #47240091;
   --font-subheading-size: clamp(1rem, 4vw, 2rem);
@@ -600,11 +601,17 @@ p#lets-start-text {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* fallback for browsers without "safe center" */
+  align-items: safe center; /* centers when it fits, else pins to top instead
+                                of overflowing off-screen in both directions
+                                (which overflow-y: auto can't scroll to) */
   padding: clamp(1rem, 6vw, 2rem);
   box-sizing: border-box;
   position: relative; /* Acts as the boundary for the draggable card */
-  overflow: hidden;
+  /* Was overflow: hidden - clipped the card top/bottom with no way to
+     scroll to the hidden part whenever the card was taller than the
+     viewport (e.g. shorter laptop screens). Scroll instead of crop. */
+  overflow-y: auto;
 }
 
 /* The RPG Card Container */
@@ -615,6 +622,9 @@ p#lets-start-text {
   box-shadow: 8px 8px 0px rgba(92, 23, 23, 0.2);
   width: 100%;
   max-width: 800px;
+  max-height: 94vh; /* Fit within the viewport instead of overflowing it -
+                        paired with responsive sizing below so it doesn't
+                        need to scroll on shorter laptop screens */
   border-radius: 15px; /* Slight rounding for a softer pixel look */
   overflow: hidden;
 }
@@ -667,9 +677,9 @@ p#lets-start-text {
 /* Layout Grid */
 .rpg-content {
   display: grid;
-  grid-template-columns: 300px 1fr; /* Fixed width for left col, rest for right */
-  padding: 24px;
-  gap: 24px;
+  grid-template-columns: 200px 1fr; /* Fixed width for left col, rest for right */
+  padding: clamp(16px, 3vh, 24px);
+  gap: clamp(16px, 2.5vh, 24px);
 }
 
 /* --- Left Column: Avatar & Stats --- */
@@ -677,10 +687,21 @@ p#lets-start-text {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%; /* explicit - the img inside is positioned out of flow (see
+                  below), so nothing else here forces a width */
+  height: 100%; /* Match the grid row height (driven by the name/role/links
+                   column) so the photo's bottom edge lines up with the
+                   bottom of the Resume/LinkedIn buttons instead of running
+                   past them. */
+  min-height: 0;
 }
 
 .pixel-frame {
   width: 100%;
+  height: 100%;
+  min-height: 0;
+  position: relative; /* positioning context for the absolutely-positioned
+                          img below */
   /* A double border effect */
   border: 2px solid var(--secondary-color);
   border-radius: 20px;
@@ -689,56 +710,36 @@ p#lets-start-text {
 }
 
 .pixel-frame img {
-  width: 100%;
+  /* Positioned out of flow so its own aspect ratio can't inflate the grid
+     row's auto-sizing (the classic image-in-a-stretched-container problem) -
+     it just fills whatever height the row ends up being instead.
+     Explicit calc() width/height (not "auto") because <img> is a replaced
+     element - with inset alone it falls back to its natural pixel size
+     instead of filling the available space. */
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
   border-radius: 20px;
-  height: auto;
+  object-fit: cover;
   display: block;
   image-rendering: pixelated; /* Ensures pixel art stays crisp */
 }
 
-/* HP/MP Bars */
-.status-bars {
-  font-size: var(--font-heading-size);
-  border: var(--pink) 2px dashed;
-  padding: 10px;
-  border-radius: 12px;
-  background: white;
-}
-.bar-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.bar-container {
-  flex-grow: 1; /* Bars take up remaining space */
-  background: #ffffff;
-  height: 20px;
-  border: 2px solid #000;
-  position: relative;
-}
-.bar-fill {
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.bar-fill.hp {
-  background: var(--pink);
-} /* Red for HP */
-.bar-fill.mp {
-  background: var(--yellowgreen);
-} /* Blue for MP */
-
-/* --- Right Column: Info & Tabs --- */
+/* --- Right Column: Name/Role/Links --- */
 .info-container {
   display: flex;
   flex-direction: column;
 }
 
+/* --- Bottom Row: Tabs, spanning the full card width under the avatar --- */
+.tabs-section {
+  grid-column: 1 / -1;
+}
+
 .char-name {
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 6vh, 4rem);
   line-height: 1;
   margin: 0 0 8px 0;
   color: var(--dark-green);
@@ -752,7 +753,7 @@ p#lets-start-text {
   margin: 0 0 6px 0;
 }
 .char-class {
-  color: var(--pink);
+  color: var(--pink-text);
   font-size: var(--font-subheading-size);
   margin: 0 0 20px 0;
   border-bottom: 3px dashed #ffcaca;
@@ -761,7 +762,9 @@ p#lets-start-text {
 .recruiter-links {
   display: flex;
   gap: 12px;
-  margin: -8px 0 20px 0;
+  margin: -8px 0 0 0; /* No bottom margin - it's the last element in the
+                          column, and the avatar photo is sized to align
+                          with its actual visible bottom edge. */
 }
 .quick-link {
   display: inline-block;
@@ -853,14 +856,14 @@ p#lets-start-text {
   margin: 20px;
 }
 .skill-list li {
-  margin-bottom: 25px;
+  margin-bottom: clamp(8px, 2vh, 25px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: var(--font-size-base);
 }
 .stars {
-  color: var(--pink);
+  color: var(--pink-text);
   font-size: 1.5rem;
 }
 
@@ -914,10 +917,6 @@ p#lets-start-text {
 
     box-shadow: none; /* Optional: simplify shadow for mobile */
   }
-  .info-container {
-    margin-top: -60px;
-  }
-
   .window-header {
     cursor: none; /* Show normal cursor */
   }
@@ -929,10 +928,23 @@ p#lets-start-text {
   }
 
   .avatar-container {
-    max-width: 350px;
-    height: 80%;
+    width: 100%; /* explicit - with the img taken out of flow (see base
+                    rule), .pixel-frame no longer has any in-flow content to
+                    derive a width from, so this can't be left implicit */
+    max-width: 200px;
+    height: auto; /* on mobile avatar/info stack in separate rows, so there's
+                     no sibling row-height to stretch to */
     margin: 0 auto;
-    scale: 0.8;
+  }
+
+  /* Cap the portrait photo instead of relying on its raw (very tall) aspect
+     ratio - avoids the photo dominating the screen on mobile, pushing the
+     name/skills/bio below the fold. The img is absolutely positioned (see
+     base rule), so the frame needs its own explicit height here since it
+     can no longer inherit one from the image's in-flow size. */
+  .pixel-frame {
+    height: 176px; /* 160px photo + 8px padding top/bottom - the base rule's
+                       calc() sizing on .pixel-frame img fills this. */
   }
 
   #likes,
@@ -1093,20 +1105,11 @@ span#x:hover {
   transform: translate(1px, 1px);
 }
 /* --- BIO STYLES --- */
+/* No max-height/scroll cap here on purpose - Skills and Hobbies both flow
+   freely to fit their content, so Bio matches instead of being squeezed
+   into its own small scrollable box. */
 #bio.active {
-  display: block; /* <--- Use block instead! */
-  /* flex-direction: column; <--- DELETE THIS LINE (Block does this automatically) */
-
-  max-height: 320px;
-  overflow-y: auto;
-  padding-right: 10px;
-}
-@media (max-width: 420px) {
-  #bio.active {
-    max-height: none;
-    overflow-y: visible;
-    padding-right: 0;
-  }
+  display: block;
 }
 .bio-text {
   margin-top: 5px;
@@ -1118,33 +1121,9 @@ span#x:hover {
 }
 
 .bio-text strong {
-  color: var(--pink);
+  color: var(--pink-text);
   cursor: pointer;
   font-weight: 500;
-}
-/* --- CUSTOM CUTE SCROLLBAR --- */
-/* The width of the scrollbar */
-#bio::-webkit-scrollbar {
-  width: 12px;
-}
-
-/* The background of the scrollbar rail */
-#bio::-webkit-scrollbar-track {
-  background: #fff5f5; /* Very light pink */
-  border-radius: 6px;
-  border: 1px solid #ffcaca;
-}
-
-/* The moving part of the scrollbar */
-#bio::-webkit-scrollbar-thumb {
-  background-color: var(--pink); /* Your pink variable */
-  border-radius: 6px;
-  border: 2px solid #fff5f5; /* Makes it look like a capsule */
-}
-
-/* Hover effect */
-#bio::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary-color);
 }
 /* RPG Dialogue Box */
 .typewriter {
@@ -1260,29 +1239,12 @@ span#x:hover {
 /* 4. Make the Avatar Image bigger in full screen (Optional) */
 .is-maximized .pixel-frame {
   max-width: 400px; /* Make the picture larger */
-}
-.is-maximized .status-bars {
-  /* 1. Use 100% of the column space, but cap it at a wider size for desktop */
   width: 100%;
-  max-width: 500px; /* 300px is very small for Desktop. 500px looks more "Heroic" */
-
-  /* 2. Don't force fixed height. Use padding so it grows if text gets bigger */
+  /* The img is absolutely positioned (see base rule) so it no longer gives
+     the frame a height on its own - derive one from width instead. */
+  aspect-ratio: 3 / 4;
   height: auto;
-  padding: 25px; /* Adds the "height" visually by adding breathing room */
-
-  /* 3. Center the box itself in the column */
-  margin: 0 auto;
-
-  /* 4. Make text bigger to match the huge screen */
-  font-size: 1.5rem;
 }
-/* FIX 3: Ensure the rows inside also stretch */
-.is-maximized .bar-row {
-  width: 100%;
-  justify-content: space-between;
-  align-items: center; /* Keeps HP left and Numbers right */
-}
-
 /* --- WORKS SECTION: LEVEL SELECT --- */
 
 .works-section {
