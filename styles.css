@@ -1257,6 +1257,14 @@ span#x:hover {
   color: var(--text-main);
 }
 
+.works-page-content {
+  width: 100%;
+  max-width: 1920px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
 .level-select-container {
   max-width: 1920px;
   min-height: 80vh;
@@ -1264,6 +1272,95 @@ span#x:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+/* --- FEATURED WORK: a calm, image-forward highlight reel above the
+   game-map grid below - no window chrome, no marquee, one click each --- */
+.featured-showcase {
+  width: 100%;
+}
+
+.featured-header {
+  margin-bottom: 20px;
+}
+
+.featured-header h2 {
+  font-family: "Griffy", cursive;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--yellowgreen);
+  margin: 0 0 6px 0;
+}
+
+.featured-header p {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--text-main);
+  margin: 0;
+  opacity: 0.85;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.featured-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featured-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.featured-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.featured-card:hover img {
+  transform: scale(1.06);
+}
+
+.featured-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent 60%);
+}
+
+.featured-tag {
+  align-self: flex-start;
+  background: var(--yellowgreen);
+  color: var(--dark-green);
+  font-family: var(--font-family-base);
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.featured-overlay h3 {
+  font-family: "Griffy", cursive;
+  color: white;
+  font-size: 1.3rem;
+  margin: 0;
 }
 
 .level-header {
