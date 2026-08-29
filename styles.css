@@ -100,6 +100,14 @@ body {
   image-rendering: pixelated;
   scale: 1.5; /* change the size of cursor emoji */
 }
+@media (max-width: 768px) {
+  /* Cursor-following icon doesn't make sense without a persistent mouse
+     cursor - hide it (and its JS-driven follow animation, which just moves
+     an invisible element harmlessly) on mobile/touch-sized screens. */
+  #npc-follower {
+    display: none;
+  }
+}
 #npc-follower img {
   width: 3.5rem;
   margin-left: 0;
@@ -1521,31 +1529,6 @@ span#x:hover {
   padding-top: 5px;
 }
 
-#explore {
-  display: block;
-  background-color: var(--pink);
-  color: whitesmoke;
-  padding: 0.5rem 1rem;
-  font-family: var(--font-family-base);
-  font-size: clamp(0.8rem, 4vw, 1.2rem);
-  cursor: pointer;
-  border: none;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
-  min-width: 100px;
-  height: 50px;
-  text-align: center;
-  align-items: center;
-}
-
-#explore:hover {
-  background-color: var(--yellowgreen);
-  color: var(--text-main);
-}
-#explore:active {
-  background-color: rgb(0, 225, 255);
-  color: whitesmoke;
-}
 /* Mobile Tweaks */
 @media (max-width: 420px) {
   .level-header h2 {
@@ -1578,6 +1561,11 @@ span#x:hover {
   flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
+  /* .world-card is an <a> now (whole card is the link, no more EXPLORE
+     button) - reset default link styling that would otherwise leak through. */
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .world-card:hover {
@@ -1733,24 +1721,6 @@ span#x:hover {
   font-size: 3rem;
   margin: 10px 0;
   animation: bounce 2s infinite;
-}
-
-.win-link {
-  color: var(--pink);
-  text-decoration: underline;
-  font-size: var(--font-size-base);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  height: 100%;
-  margin-bottom: auto; /* Pushes text to bottom */
-}
-.win-link:visited {
-  color: rgb(110, 0, 64);
-}
-.win-link:active {
-  color: greenyellow;
 }
 
 /* Mobile Tweaks */
@@ -1938,10 +1908,13 @@ span#x:hover {
   filter: drop-shadow(2px 4px 0px rgba(0, 0, 0, 0.1));
 }
 .decor-sticker img {
-  width: clamp(20px, 10vw, 100px); /* Responsive size */
-  height: auto;
-  align-items: center;
-  justify-content: center;
+  /* Fixed square box with object-fit so all 4 icons render at the same
+     size regardless of their source aspect ratio - mail.png in particular
+     is 351x271 (not square like the other 3), so width+height:auto alone
+     made it a different size from the rest. */
+  width: clamp(20px, 10vw, 60px);
+  height: clamp(20px, 10vw, 60px);
+  object-fit: contain;
 }
 
 @media (max-width: 620px) {
