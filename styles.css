@@ -1003,6 +1003,17 @@ p#lets-start-text {
     padding: 10px;
   }
 
+  /* The base rule pins .tabs-section to "row 2" so it can't be auto-placed
+     alongside the avatar/name on desktop's 2-column grid. On this 1-column
+     mobile layout that same "row 2" collides with .info-container, which
+     auto-places into row 2 here (there's only one column, so it can't sit
+     beside the avatar like on desktop) - overlapping the two. Let it fall
+     back to natural DOM-order placement (avatar, info, tabs stacked). */
+  .tabs-section {
+    grid-row: auto;
+    margin-top: 0;
+  }
+
   .avatar-container {
     width: 100%; /* explicit - with the img taken out of flow (see base
                     rule), .pixel-frame no longer has any in-flow content to
