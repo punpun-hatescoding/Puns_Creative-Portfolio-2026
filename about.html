@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Audiowide&family=DotGothic16&family=DynaPuff:wght@400..700&family=Griffy&family=Henny+Penny&family=Irish+Grover&family=Jacquard+12&family=Jockey+One&family=Kirang+Haerang&family=Love+Ya+Like+A+Sister&family=Mountains+of+Christmas:wght@400;700&family=Russo+One&family=UnifrakturMaguntia&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 <body>
     <div id="npc-follower"><img src="images/cursor.svg" alt=""></div>
     <div class="sparkle"></div>
@@ -81,6 +81,7 @@
                 <div class="rpg-tabs">
                     <button class="tab-btn" data-target="bio">Bio</button>
                     <button class="tab-btn active" data-target="skills">Skills</button>
+                    <button class="tab-btn" data-target="experience">Experience</button>
                     <button class="tab-btn" data-target="likes">Hobbies</button>
                 </div>
 
@@ -109,12 +110,114 @@
 
                     <div id="skills" class="tab-content active">
                         <ul class="skill-list">
-                            <li>> Illustration <span class="stars">★★★★★</span></li>
-                            <li>> Traditional Arts & Crafts <span class="stars">★★★★★</span></li>
-                            <li>> Graphic Design <span class="stars">★★★★★</span></li>
-                            <li>> Motion Graphics/ Animation <span class="stars">★★★★☆</span></li>
-                            <li>> UI/UX Design <span class="stars">★★★☆☆</span></li>
-                            <li>> Cats'lover <span class="stars">♾️</span></li></ul>
+                            <li>
+                                <div class="skill-row">> Illustration & Design <span class="stars">★★★★★</span></div>
+                                <div class="skill-tools">Illustrator, Photoshop, InDesign, Procreate, Figma</div>
+                            </li>
+                            <li>
+                                <div class="skill-row">> Traditional & Hand-Craft <span class="stars">★★★★★</span></div>
+                                <div class="skill-tools">Gouache, Oil Painting, Acrylic, Oil Pastel, Silk Painting, Props Making</div>
+                            </li>
+                            <li>
+                                <div class="skill-row">> Motion & Video <span class="stars">★★★★☆</span></div>
+                                <div class="skill-tools">After Effects, DaVinci Resolve, TouchDesigner, Stop Motion (Dragonframe)</div>
+                            </li>
+                            <li>
+                                <div class="skill-row">> Code & Interactive <span class="stars">★★★☆☆</span></div>
+                                <div class="skill-tools">HTML/CSS, JavaScript, Python, p5.js, Arduino</div>
+                            </li>
+                            <li>
+                                <div class="skill-row">> Audio <span class="stars">★★☆☆☆</span></div>
+                                <div class="skill-tools">Audacity, basic sound recording</div>
+                            </li>
+                            <li>
+                                <div class="skill-row">> Cats'lover <span class="stars">♾️</span></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="experience" class="tab-content">
+                        <div class="exp-group">
+                            <h4 class="exp-group-title">> Work Experience</h4>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Executive Graphic Designer</span>
+                                    <span class="exp-dates">5/2025 – 10/2025</span>
+                                </div>
+                                <div class="exp-place">Millford Vietnam</div>
+                                <p class="exp-desc">Promoted from intern to an executive design role within 3 months for consistently delivering on-brand omnichannel campaigns — key visuals, product posters (Shopee, Lazada, Amazon), social motion graphics, and Blender packaging mockups.</p>
+                            </div>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Tattoo Artist</span>
+                                    <span class="exp-dates">7/2022 – current</span>
+                                </div>
+                                <div class="exp-place">punpiecpoke Tattoo Service</div>
+                                <p class="exp-desc">Custom tattoo design, client consultations, scheduling, and customer support.</p>
+                            </div>
+                        </div>
+
+                        <div class="exp-group">
+                            <h4 class="exp-group-title">> Freelance & Client Work</h4>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Children's Book Illustrator</span>
+                                    <span class="exp-dates">2023 – current</span>
+                                </div>
+                                <div class="exp-place">Anh Hung Rua Xanh (environmental non-profit)</div>
+                                <p class="exp-desc">Illustrated assets and layouts for a 3-part children's book series raising awareness on environmental protection.</p>
+                            </div>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Illustrator</span>
+                                </div>
+                                <div class="exp-place">Sirené (leather journal brand)</div>
+                                <p class="exp-desc">Illustrated a set of Vung Tau-themed stamps and a comic page advertising the brand's products.</p>
+                            </div>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Storyboard Artist</span>
+                                </div>
+                                <div class="exp-place">CAKE Digital Bank</div>
+                                <p class="exp-desc">Storyboarding for a TVC, outsourced work.</p>
+                            </div>
+                        </div>
+
+                        <div class="exp-group">
+                            <h4 class="exp-group-title">> Education</h4>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Digital Media</span>
+                                    <span class="exp-dates">2023 – 2027</span>
+                                </div>
+                                <div class="exp-place">RMIT University Saigon South Campus</div>
+                            </div>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Foundation Studies (Art, Design & Architecture)</span>
+                                    <span class="exp-dates">2022 – 2023</span>
+                                </div>
+                                <div class="exp-place">RMIT University Saigon South Campus</div>
+                            </div>
+                        </div>
+
+                        <div class="exp-group">
+                            <h4 class="exp-group-title">> Certifications</h4>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Design Lead Recognition — Nguech Ngoac</span>
+                                    <span class="exp-dates">2025</span>
+                                </div>
+                                <div class="exp-place">Non-profit Organization for Kids with Disabilities in Saigon</div>
+                            </div>
+                            <div class="exp-entry">
+                                <div class="exp-header">
+                                    <span class="exp-role">Finique Photography & Design Club Recognition</span>
+                                    <span class="exp-dates">2021</span>
+                                </div>
+                                <div class="exp-place">Nguyen Thuong Hien High School</div>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="likes" class="tab-content">
@@ -133,6 +236,7 @@
         </div>
     </div>
 </section>
+    </div>
   <script src="animate.js">
   </script>
 </body>

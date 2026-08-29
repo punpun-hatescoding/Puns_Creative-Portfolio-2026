@@ -806,7 +806,7 @@ p#lets-start-text {
   border-bottom: none; /* Connect to body */
   border-radius: 15px 15px 0 0; /* Round top corners */
 
-  font-family: var(--font-pixel, monospace);
+  font-family: var(--font-family-base);
   font-size: 1.2rem; /* BIGGER TEXT */
   color: var(--dark-red);
   font-weight: bold;
@@ -856,11 +856,68 @@ p#lets-start-text {
   margin: 20px;
 }
 .skill-list li {
-  margin-bottom: clamp(8px, 2vh, 25px);
+  margin-bottom: clamp(10px, 2.2vh, 25px);
+  font-size: var(--font-size-base);
+}
+.skill-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.skill-tools {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+/* --- Experience tab --- */
+.exp-group {
+  margin: 20px;
+}
+.exp-group:first-child {
+  margin-top: 0;
+}
+.exp-group-title {
+  font-family: var(--font-family-base);
+  font-size: 1.3rem;
+  color: var(--pink-text);
+  border-bottom: 2px dashed #ffcaca;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+.exp-entry {
+  margin-bottom: 18px;
+}
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.exp-role {
   font-size: var(--font-size-base);
+  font-weight: bold;
+  color: var(--text-main);
+}
+.exp-dates {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+.exp-place {
+  font-size: 0.9rem;
+  color: var(--dark-red);
+  margin-top: 2px;
+}
+.exp-desc {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--text-main);
+  opacity: 0.85;
+  margin-top: 6px;
 }
 .stars {
   color: var(--pink-text);
@@ -1285,7 +1342,7 @@ span#x:hover {
 }
 
 .featured-header h2 {
-  font-family: "Griffy", cursive;
+  font-family: var(--font-family-base);
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   color: var(--yellowgreen);
   margin: 0 0 6px 0;
@@ -1357,7 +1414,7 @@ span#x:hover {
 }
 
 .featured-overlay h3 {
-  font-family: "Griffy", cursive;
+  font-family: var(--font-family-base);
   color: white;
   font-size: 1.3rem;
   margin: 0;
@@ -1550,6 +1607,9 @@ span#x:hover {
 .window-header-works.clouds {
   background-color: rgb(6, 226, 208);
 }
+.window-header-works.bloom {
+  background-color: rgb(158, 92, 224);
+}
 .win-icon {
   width: 14px;
   height: 14px;
@@ -1581,6 +1641,22 @@ span#x:hover {
   background-color: rgb(255, 242, 232);
   background-size: 10px 10px;
   color: var(--text-main);
+}
+
+/* Bloom: Soft violet, for the in-progress ORGAN(IC) card */
+.theme-bloom {
+  background-color: #ede0fa;
+  background-image: radial-gradient(circle at 25% 30%, #d9bcf7 12%, transparent 40%),
+    radial-gradient(circle at 75% 65%, #d9bcf7 12%, transparent 40%);
+  color: var(--text-main);
+}
+
+.coming-soon-desc {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--text-main);
+  opacity: 0.85;
+  margin: 8px 0 16px;
 }
 
 /* Clouds: Blue with CSS clouds */
@@ -1678,7 +1754,7 @@ span#x:hover {
 .letter-header {
   text-align: center;
   margin-bottom: 20px;
-  font-family: griffy, cursive;
+  font-family: var(--font-family-base);
   font-size: calc(var(--font-heading-size) * 1.8);
   color: var(--pink);
   display: flex;
@@ -1689,7 +1765,7 @@ span#x:hover {
 
 .letter-header h2 {
   font-size: var(--font-heading-size);
-  font-family: griffy, cursive;
+  font-family: var(--font-family-base);
   margin: 0;
   text-shadow: 4px 4px 0px #fff;
   color: var(--dark-red);
