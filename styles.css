@@ -601,10 +601,10 @@ p#lets-start-text {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* fallback for browsers without "safe center" */
-  align-items: safe center; /* centers when it fits, else pins to top instead
-                                of overflowing off-screen in both directions
-                                (which overflow-y: auto can't scroll to) */
+  align-items: flex-start; /* Always top-anchored - "safe center" was tried
+                               here but its overflow check didn't reliably
+                               account for tab content that changes height
+                               after the fact, still clipping the top. */
   padding: clamp(1rem, 6vw, 2rem);
   box-sizing: border-box;
   position: relative; /* Acts as the boundary for the draggable card */
@@ -622,9 +622,11 @@ p#lets-start-text {
   box-shadow: 8px 8px 0px rgba(92, 23, 23, 0.2);
   width: 100%;
   max-width: 800px;
-  max-height: 94vh; /* Fit within the viewport instead of overflowing it -
-                        paired with responsive sizing below so it doesn't
-                        need to scroll on shorter laptop screens */
+  /* No max-height here on purpose - tabs vary a lot in content length
+     (Experience is much longer than Bio/Skills/Hobbies). The card grows
+     to fit whichever tab is active, and .about-section's overflow-y:auto
+     scrolls the page for the taller ones instead of silently clipping
+     content that doesn't fit a fixed cap. */
   border-radius: 15px; /* Slight rounding for a softer pixel look */
   overflow: hidden;
 }
@@ -736,6 +738,9 @@ p#lets-start-text {
 /* --- Bottom Row: Tabs, spanning the full card width under the avatar --- */
 .tabs-section {
   grid-column: 1 / -1;
+  grid-row: 2; /* explicit, so it can never be auto-placed into row 1
+                  alongside the avatar/name column and overlap them */
+  margin-top: 12px;
 }
 
 .char-name {
@@ -771,9 +776,9 @@ p#lets-start-text {
   background-color: #ffe4c4;
   border: 2px solid var(--dark-red);
   border-radius: 8px;
-  padding: 6px 14px;
+  padding: 3px 10px;
   font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
+  font-size: 0.85rem;
   color: var(--dark-red);
   text-decoration: none;
   transition: background-color 0.2s, transform 0.2s;
@@ -797,6 +802,11 @@ p#lets-start-text {
   position: relative;
   z-index: 5; /* Behind the content box slightly? No, on top usually */
   top: 2px; /* Slight overlap with content border */
+}
+
+.tab-content-wrapper {
+  padding-top: 20px; /* Breathing room below the tabs - without this, each
+                         tab's content sits flush against the tab row */
 }
 
 /* The Individual Tab Buttons */
@@ -863,6 +873,15 @@ p#lets-start-text {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.skill-link {
+  color: var(--text-main);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--pink-text);
+  transition: color 0.2s;
+}
+.skill-link:hover {
+  color: var(--pink-text);
 }
 .skill-tools {
   font-size: 0.85rem;
@@ -2073,6 +2092,38 @@ span#x:hover {
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 10px;
   margin-bottom: 20px;
+}
+
+/* Was unstyled everywhere it's used (Animation and Web Design's project
+   selectors) - rendered as plain default browser buttons. */
+.tape-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #2b2b2b;
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-family-base);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.tape-btn:hover {
+  border-color: #888;
+  background: #3a3a3a;
+}
+.tape-btn.active {
+  border-color: #b6ffea;
+  background: #203330;
+}
+.tape-icon {
+  font-size: 1.5rem;
+}
+.tape-info {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
 }
 
 /* --- NEW: INFO BOX STYLES --- */

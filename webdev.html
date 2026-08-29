@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="npc-follower"><img src="images/cursor.svg" alt="" /></div>
+    <div id="npc-follower"><img src="main-images/fat-cat.png" alt="" /></div>
     <div class="sparkle"></div>
     <a href="works.html" class="back-btn">
     <span class="arrow">←</span> Return
@@ -34,6 +34,7 @@
               src="previews/essay1.jpeg"
               alt="Click to Watch"
             />
+            <video id="main-preview-video" style="display: none;" muted loop playsinline></video>
 
             <div class="play-overlay">
               <div class="play-circle">
@@ -42,6 +43,45 @@
               <span class="play-text">WATCH ON YOUTUBE</span>
             </div>
           </a>
+        </div>
+
+        <div class="cinema-playlist">
+          <h3 class="retro-heading">> SELECT_PROJECT:</h3>
+
+          <div class="tape-grid">
+            <button
+              class="tape-btn active"
+              onclick="updateWebProject('previews/essay1.jpeg', false, 'https://youtu.be/eB6poxOjdf4?si=KzCN4va78ehw2S0W', 'WATCH ON YOUTUBE', 'The Glass Essay', 'An interactive web-based poem on the themes of memory and loss.', 'HTML, CSS, JavaScript', 'https://punpun-hatescoding.github.io/The-Glass-Essay/', this, ['previews/essay3.jpeg', 'previews/essay2.jpeg', 'previews/essay4.jpeg', 'previews/essay5.jpeg', 'previews/essay7.jpeg', 'previews/essay8.jpeg'])"
+            >
+              <span class="tape-icon">📼</span>
+              <div class="tape-info">
+                <strong>The Glass Essay</strong>
+                <span style="font-size: 0.8rem; color: #aaa">Interactive Poem</span>
+              </div>
+            </button>
+
+            <button
+              class="tape-btn"
+              onclick="updateWebProject('previews/silentwar1.jpeg', false, 'https://punpun-hatescoding.github.io/The-Silent-War---An-Interative-Experience/', 'PLAY THE EXPERIENCE', 'The Silent War', 'An interactive commentary on forced military conscription. Uses an experimental visual style and mini shooting-game mechanics to immerse players in the soldier&#39;s experience and provoke reflection on the destruction of war.', 'HTML/CSS, p5.js, JavaScript', 'https://punpun-hatescoding.github.io/The-Silent-War---An-Interative-Experience/', this, [])"
+            >
+              <span class="tape-icon">📼</span>
+              <div class="tape-info">
+                <strong>The Silent War</strong>
+                <span style="font-size: 0.8rem; color: #aaa">Interactive Experience</span>
+              </div>
+            </button>
+
+            <button
+              class="tape-btn"
+              onclick="updateWebProject('previews/redhand_ani.mov', true, '', '', 'ORGAN(IC)', 'An immersive interactive installation exploring the biological parallels between humans and nature through physical computing and real-time visuals. Expected completion: September 2026.', 'TouchDesigner, Physical Computing, 3D Compositing', '', this, [])"
+            >
+              <span class="tape-icon">📼</span>
+              <div class="tape-info">
+                <strong>ORGAN(IC)</strong>
+                <span style="font-size: 0.8rem; color: #aaa">Coming Soon</span>
+              </div>
+            </button>
+          </div>
         </div>
 
         <div class="video-details-panel">
@@ -63,14 +103,15 @@
         </div>
         <div class="action-row" style="scale: 0.8;">
           <a
+            id="try-btn-link"
             href="https://punpun-hatescoding.github.io/The-Glass-Essay/"
             target="_blank"
             class="try-btn"
           >
-            <span class="blink-icon" style="text-align: center;">⚡</span> TRY IT YOURSELF
+            <span class="blink-icon" style="text-align: center;">⚡</span> <span id="try-btn-label">TRY IT YOURSELF</span>
           </a>
         </div>
-        <div class="preview-strip">
+        <div class="preview-strip" id="webdev-strip">
           <div class="strip-item">
             <span class="strip-label"></span>
             <img src="previews/essay3.jpeg" alt="Extra 1" />

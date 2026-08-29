@@ -218,19 +218,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 1. Remove 'active' from ALL tabs and contents
                 tabs.forEach(t => t.classList.remove('active'));
                 contents.forEach(c => c.classList.remove('active'));
-                
+
                 // 2. Add 'active' to the ONE you clicked
                 tab.classList.add('active');
-                
+
                 // 3. Find the matching content ID (e.g., "skills") and show it
                 const targetId = tab.getAttribute('data-target');
                 const targetContent = document.getElementById(targetId);
-                
+
                 if (targetContent) {
                     targetContent.classList.add('active');
                     console.log(`Switched to tab: ${targetId}`); // Debugging check
                 } else {
                     console.error(`Could not find content for id: ${targetId}`);
+                }
+
+                // 4. Tabs vary a lot in height (Experience is much longer than
+                // Bio/Skills/Hobbies). If the card was ever dragged, it has an
+                // inline top/left pinning it in place - clear that so it goes
+                // back to being positioned by CSS for its new height, instead
+                // of staying pinned somewhere that clips the new content.
+                const card = document.querySelector('.character-card');
+                if (card) {
+                    card.style.top = '';
+                    card.style.left = '';
+                    card.style.transform = '';
+                }
+
+                // 5. Whatever scroll position you were at for the old (often
+                // shorter) tab doesn't make sense for the new one - e.g. if
+                // you were scrolled partway down Bio and switch to the much
+                // taller Experience tab, that same scroll position now lands
+                // you mid-card instead of at the top, which looks like the
+                // top got cut off. Scroll the card's top back into view.
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
@@ -409,6 +431,91 @@ function updatePlayer(videoID, imageSrc, title, desc, tools, btn, extraImages) {
         });
     }
 }
+// --- 5b. WEB DESIGN PROJECT SELECTOR LOGIC ---
+// Similar to updatePlayer(), but for webdev.html's project selector, where
+// each entry behaves differently: some link out to a live experience, some
+// show a demo video, and one (still in progress) has no link to give at all.
+function updateWebProject(mediaSrc, isVideo, mainLink, mainLinkLabel, title, desc, tools, tryLink, btn, extraImages) {
+
+    // 1. Show either the still image or the looping video preview
+    const img = document.getElementById('main-preview-image');
+    const vid = document.getElementById('main-preview-video');
+    if (isVideo) {
+        if (img) img.style.display = 'none';
+        if (vid) {
+            vid.src = mediaSrc;
+            vid.style.display = 'block';
+            vid.play().catch(() => {}); // ignore autoplay rejection
+        }
+    } else {
+        if (vid) {
+            vid.pause();
+            vid.removeAttribute('src');
+            vid.style.display = 'none';
+        }
+        if (img) {
+            img.style.display = 'block';
+            img.src = mediaSrc;
+        }
+    }
+
+    // 2. Update the main link - some projects (e.g. ORGAN(IC), still in
+    // progress) don't have anywhere to send visitors yet, so the preview
+    // isn't clickable and the play overlay is hidden instead of pointing
+    // nowhere.
+    const link = document.getElementById('main-video-link');
+    const playOverlay = document.querySelector('#window-cinema .play-overlay');
+    const playText = document.querySelector('#window-cinema .play-text');
+    if (link) {
+        if (mainLink) {
+            link.href = mainLink;
+            link.style.pointerEvents = 'auto';
+            if (playOverlay) playOverlay.style.display = '';
+            if (playText) playText.textContent = mainLinkLabel;
+        } else {
+            link.removeAttribute('href');
+            link.style.pointerEvents = 'none';
+            if (playOverlay) playOverlay.style.display = 'none';
+        }
+    }
+
+    // 3. Update Info Box Text
+    document.getElementById('video-title').innerText = title;
+    document.getElementById('video-desc').innerText = desc;
+    document.getElementById('video-tools').innerText = tools;
+
+    // 4. Show/hide the "Try It Yourself" button depending on whether
+    // there's a live link to send people to
+    const actionRow = document.querySelector('.action-row');
+    const tryLinkEl = document.getElementById('try-btn-link');
+    if (tryLink) {
+        if (actionRow) actionRow.style.display = '';
+        if (tryLinkEl) tryLinkEl.href = tryLink;
+    } else {
+        if (actionRow) actionRow.style.display = 'none';
+    }
+
+    // 5. Highlight Active Button
+    const allTapes = document.querySelectorAll('#window-cinema .tape-btn');
+    allTapes.forEach(tape => tape.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    // 6. Swap the extra preview screenshots
+    const container = document.getElementById('webdev-strip');
+    if (container) {
+        container.innerHTML = '';
+        (extraImages || []).forEach(imgSrc => {
+            const div = document.createElement('div');
+            div.className = 'strip-item';
+            div.innerHTML = `
+                <img src="${imgSrc}" alt="Preview">
+                <span class="strip-label"></span>
+            `;
+            container.appendChild(div);
+        });
+    }
+}
+
 // Function to handle Mobile Arrow Navigation
 function navigatePlaylist(direction) {
     // 1. Get all the tape buttons
