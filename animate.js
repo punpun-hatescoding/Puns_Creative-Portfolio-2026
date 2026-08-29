@@ -366,11 +366,20 @@ if (sendBtn) {
     }
 // --- 5. ANIMATION CHANNEL PLAYLIST LOGIC ---
 // Function to update Player AND Info Box
-function updatePlayer(vimeoID, imageSrc, title, desc, tools, btn, extraImages) {
-    
+function updatePlayer(videoID, imageSrc, title, desc, tools, btn, extraImages) {
+
     // 1. Update Link & Image
+    // videoID is normally a bare Vimeo ID, but a full URL (e.g. a YouTube
+    // link) is also accepted and used as-is instead of being wrapped in
+    // the vimeo.com/ prefix.
+    const isFullUrl = /^https?:\/\//.test(videoID);
     const link = document.getElementById('main-video-link');
-    if (link) link.href = `https://vimeo.com/${vimeoID}`;
+    if (link) link.href = isFullUrl ? videoID : `https://vimeo.com/${videoID}`;
+
+    const playText = document.querySelector('#window-cinema .play-text');
+    if (playText) {
+        playText.textContent = /youtube\.com|youtu\.be/.test(videoID) ? 'Watch On YouTube' : 'Watch On Vimeo';
+    }
 
     const img = document.getElementById('main-preview-image');
     if (img) img.src = imageSrc;
