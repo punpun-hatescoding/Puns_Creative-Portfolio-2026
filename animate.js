@@ -572,6 +572,17 @@ function closeArt(e) {
     }
 }
 
+// --- GALLERY FILTER (Tattoos page) ---
+function filterGallery(category, btn) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    document.querySelectorAll('.gallery-grid .art-item').forEach(item => {
+        const match = category === 'all' || item.dataset.category === category;
+        item.style.display = match ? '' : 'none';
+    });
+}
+
 /* --- SCROLL ANIMATION TRIGGER --- */
 document.addEventListener("DOMContentLoaded", function() {
     

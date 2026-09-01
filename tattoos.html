@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tattoos – Pun's Folio</title>
+    <meta name="description" content="A passionate artist and illustrator specializing in traditional and digital mediums, dedicated to creating whimsical, vibrant artwork and exploring motion graphics and UI/UX design." />
+    <link rel="icon" type="image/png" href="main-images/fat-cat.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  </head>
+  <body>
+     <a href="works.html" class="back-btn">
+    <span class="arrow">←</span> Return
+</a>
+    <div id="npc-follower"><img src="main-images/fat-cat.png" alt="" /></div>
+    <div class="sparkle"></div>
+    <div id="window-cinema" class="project-window hidden">
+    </div>
+    <section class="minimal-gallery">
+
+    <h2 class="gallery-title" style="color: rgb(170, 255, 0);">Tattoo Flashes</h2>
+
+    <div class="filter-pills">
+        <button class="filter-pill active" onclick="filterGallery('all', this)">All</button>
+        <button class="filter-pill" onclick="filterGallery('cats', this)">Cats</button>
+        <button class="filter-pill" onclick="filterGallery('cute', this)">Cute Mascots</button>
+        <button class="filter-pill" onclick="filterGallery('minimal', this)">Minimal</button>
+        <button class="filter-pill" onclick="filterGallery('animals', this)">Animals</button>
+        <button class="filter-pill" onclick="filterGallery('lettering', this)">Lettering</button>
+        <button class="filter-pill" onclick="filterGallery('seasonal', this)">Seasonal</button>
+        <button class="filter-pill" onclick="filterGallery('commissions', this)">Commissions</button>
+        <button class="filter-pill" onclick="filterGallery('archive', this)">Archive</button>
+    </div>
+
+    <div class="gallery-grid">
+
+        <div class="art-item" data-category="commissions" onclick="openArt(this)">
+            <img src="previews/comm.jpeg" alt="tattoo flash" data-desc="Commissions, 2025.">
+            <div class="art-info">
+                <h3>Custom tattoos based on customers' preferences</h3>
+            </div>
+        </div>
+
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tat-1.jpeg" alt="Halloween's Cats" data-desc="Tattoo Flashes, 2025.">
+            <div class="art-info">
+                <h3>Halloween's Cats</h3>
+            </div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tat-2.jpeg" alt="Halloween's Cats" data-desc="Tattoo Flashes, 2025.">
+            <div class="art-info">
+                <h3>Halloween's Cats</h3>
+            </div>
+        </div>
+        <div class="art-item" data-category="animals" onclick="openArt(this)">
+            <img src="previews/tat-3.jpeg" alt="Angry Animals" data-desc="Tattoo Flashes, 2025.">
+            <div class="art-info">
+                <h3>Angry Animals</h3>
+            </div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tat-4.jpeg" alt="Punk Cat" data-desc="Tattoo Flashes, 2025.">
+            <div class="art-info">
+                <h3>Punk Cats</h3>
+            </div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tat-5.jpeg" alt="Fairy Cats" data-desc="Tattoo Flashes, 2025.">
+            <div class="art-info">
+                <h3>Fairy Cats</h3>
+            </div>
+        </div>
+        <div class="art-item" data-category="seasonal" onclick="openArt(this)">
+            <img src="previews/tat-6.jpeg" alt="Full Moon Festival" data-desc="Tattoo Flashes, 2025.">
+            <div class="art-info">
+                <h3>Full Moon Festival</h3>
+            </div>
+        </div>
+        <div class="art-item" data-category="animals" onclick="openArt(this)">
+            <img src="previews/tat-7.jpeg" alt="Firefly" data-desc="Tattoo Flashes, 2025.">
+            <div class="art-info">
+                <h3>Firefly</h3>
+            </div>
+        </div>
+        <div class="art-item" data-category="animals" onclick="openArt(this)">
+            <img src="previews/tat-8.jpeg" alt="Bug" data-desc="Tattoo Flashes, 2025.">
+            <div class="art-info">
+                <h3>Bug</h3>
+            </div>
+        </div>
+        <div class="art-item" data-category="archive" onclick="openArt(this)">
+            <img src="previews/tattoos.jpeg" alt="tattoo flash" data-desc="Digital illustration, 2024.">
+            <div class="art-info">
+                <h3>2024 flashes</h3>
+            </div>
+        </div>
+
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash10.jpeg" alt="Perched Cat" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Perched Cat</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash12.jpeg" alt="Vine Sprig" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Vine Sprig</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash15.jpeg" alt="Spicy Cat" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Spicy Cat</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash18.jpeg" alt="Chibi Mascot" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Chibi Mascot</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash24.jpeg" alt="Bunny Ears" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Bunny Ears</h3></div>
+        </div>
+        <div class="art-item" data-category="animals" onclick="openArt(this)">
+            <img src="previews/tattflash29.jpeg" alt="Otter Portrait" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Otter Portrait</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash31.jpeg" alt="Swirl Line" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Swirl Line</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash34.jpeg" alt="Winged Capybara" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Winged Capybara</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash37.jpeg" alt="Tiny Flower" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Tiny Flower</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash41.jpeg" alt="Cat Face Outline" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Cat Face Outline</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash43.jpeg" alt="Leaf Sprig" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Leaf Sprig</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash50.jpeg" alt="Floral Ankle" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Floral Ankle</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash52.jpeg" alt="Frog Face" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Frog Face</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash53.jpeg" alt="Bunny Ears" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Bunny Ears</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash55.jpeg" alt="Angel Cat" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Angel Cat</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash60.jpeg" alt="Floral Vine" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Floral Vine</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash61.jpeg" alt="Frog Face" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Frog Face</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash62.jpeg" alt="Bunny Ears" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Bunny Ears</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash63.jpeg" alt="Twin Cats" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Twin Cats</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash64.jpeg" alt="Blue Blossom" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Blue Blossom</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash65.jpeg" alt="Bunny Ears" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Bunny Ears</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash66.jpeg" alt="Lighter Cat" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Lighter Cat</h3></div>
+        </div>
+        <div class="art-item" data-category="animals" onclick="openArt(this)">
+            <img src="previews/tattflash67.jpeg" alt="Ladybug Bandaid" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Ladybug Bandaid</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash68.jpeg" alt="Cat & Bunny" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Cat &amp; Bunny</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash69.jpeg" alt="Magic Wand" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Magic Wand</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash70.jpeg" alt="Occult Symbol" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Occult Symbol</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash71.jpeg" alt="Arm Collection" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Arm Collection</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash73.jpeg" alt="Winged Hamster" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Winged Hamster</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash74.jpeg" alt="Lion Skull" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Lion Skull</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash75.jpeg" alt="Angel Cat" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Angel Cat</h3></div>
+        </div>
+        <div class="art-item" data-category="animals" onclick="openArt(this)">
+            <img src="previews/tattflash76.jpeg" alt="Otter Sketch" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Otter Sketch</h3></div>
+        </div>
+        <div class="art-item" data-category="lettering" onclick="openArt(this)">
+            <img src="previews/tattflash77.jpeg" alt="Co Len Cat" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>"Cố Lên" Cat</h3></div>
+        </div>
+        <div class="art-item" data-category="cats" onclick="openArt(this)">
+            <img src="previews/tattflash80.jpeg" alt="Tabby Cat" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Tabby Cat</h3></div>
+        </div>
+        <div class="art-item" data-category="lettering" onclick="openArt(this)">
+            <img src="previews/tattflash81.jpeg" alt="Tu Do Heart" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>"Tự Do" Heart</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash83.jpeg" alt="Bat Bunny" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Bat Bunny</h3></div>
+        </div>
+        <div class="art-item" data-category="minimal" onclick="openArt(this)">
+            <img src="previews/tattflash84.jpeg" alt="Star Ear" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Star Ear</h3></div>
+        </div>
+        <div class="art-item" data-category="lettering" onclick="openArt(this)">
+            <img src="previews/tattflash86.jpeg" alt="Nam Script" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>"Nâm" Script</h3></div>
+        </div>
+        <div class="art-item" data-category="cute" onclick="openArt(this)">
+            <img src="previews/tattflash87.jpeg" alt="Chibi Bear" data-desc="Tattoo, 2025.">
+            <div class="art-info"><h3>Chibi Bear</h3></div>
+        </div>
+    </div>
+
+    <div id="clean-lightbox" class="lightbox-overlay" onclick="closeArt(event)">
+        <div class="lightbox-content">
+            <img id="lb-img" src="" alt="">
+            <div class="lb-details">
+                <h2 id="lb-title">Title</h2>
+                <p id="lb-desc">Description</p>
+            </div>
+            <span class="close-lightbox">×</span>
+        </div>
+    </div>
+
+</section>
+    <script src="animate.js"></script>
+  </body>
+</html>
