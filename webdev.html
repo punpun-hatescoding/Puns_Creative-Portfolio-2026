@@ -44,6 +44,17 @@
             </div>
           </a>
         </div>
+        <div class="mobile-nav">
+          <button class="nav-arrow" onclick="navigatePlaylist(-1)">
+            ◀ PREV
+          </button>
+          <span class="nav-label" style="text-align: center"
+            >Channel Select</span
+          >
+          <button class="nav-arrow" onclick="navigatePlaylist(1)">
+            NEXT ▶
+          </button>
+        </div>
 
         <div class="cinema-playlist">
           <h3 class="retro-heading">> SELECT_PROJECT:</h3>
@@ -52,7 +63,7 @@
             <button
               class="tape-btn active"
               data-project="glassessay"
-              onclick="updateWebProject('previews/essay1.jpeg', false, 'https://youtu.be/eB6poxOjdf4?si=KzCN4va78ehw2S0W', 'WATCH ON YOUTUBE', 'The Glass Essay', 'An interactive web-based poem on the themes of memory and loss.', 'HTML, CSS, JavaScript', 'https://punpun-hatescoding.github.io/The-Glass-Essay/', this, ['previews/essay3.jpeg', 'previews/essay2.jpeg', 'previews/essay4.jpeg', 'previews/essay5.jpeg', 'previews/essay7.jpeg', 'previews/essay8.jpeg'], [{label:'Process Doc', href:'design-docs/process-glassessay.pdf'}, {label:'Mockup 1', href:'design-docs/glassessay-mockup-1.pdf'}, {label:'Mockup 2', href:'design-docs/glassessay-mockup-2.pdf'}, {label:'Mockup 3', href:'design-docs/glassessay-mockup-3.pdf'}])"
+              onclick="updateWebProject('previews/essay1.jpeg', false, 'https://youtu.be/eB6poxOjdf4?si=KzCN4va78ehw2S0W', 'WATCH ON YOUTUBE', 'The Glass Essay', 'An interactive web-based poem on the themes of memory and loss.', 'HTML, CSS, JavaScript', 'https://punpun-hatescoding.github.io/The-Glass-Essay/', this, ['previews/essay3.jpeg', 'previews/essay2.jpeg', 'previews/essay4.jpeg', 'previews/essay5.jpeg', 'previews/essay7.jpeg', 'previews/essay8.jpeg'].concat(glassessayDocPages), [{label:'Process Doc', href:'design-docs/process-glassessay.pdf'}, {label:'Mockup 1', href:'design-docs/glassessay-mockup-1.pdf'}, {label:'Mockup 2', href:'design-docs/glassessay-mockup-2.pdf'}, {label:'Mockup 3', href:'design-docs/glassessay-mockup-3.pdf'}])"
             >
               <span class="tape-icon">📼</span>
               <div class="tape-info">
@@ -64,7 +75,7 @@
             <button
               class="tape-btn"
               data-project="silentwar"
-              onclick="updateWebProject('previews/silentwar1.jpeg', false, 'https://punpun-hatescoding.github.io/The-Silent-War---An-Interative-Experience/', 'PLAY THE EXPERIENCE', 'The Silent War', 'An interactive commentary on forced military conscription. Uses an experimental visual style and mini shooting-game mechanics to immerse players in the soldier\'s experience and provoke reflection on the destruction of war.', 'HTML/CSS, p5.js, JavaScript', 'https://punpun-hatescoding.github.io/The-Silent-War---An-Interative-Experience/', this, [], [{label:'Process Doc', href:'design-docs/process-silentwar.pdf'}])"
+              onclick="updateWebProject('previews/silentwar1.jpeg', false, 'https://punpun-hatescoding.github.io/The-Silent-War---An-Interative-Experience/', 'PLAY THE EXPERIENCE', 'The Silent War', 'An interactive commentary on forced military conscription. Uses an experimental visual style and mini shooting-game mechanics to immerse players in the soldier\'s experience and provoke reflection on the destruction of war.', 'HTML/CSS, p5.js, JavaScript', 'https://punpun-hatescoding.github.io/The-Silent-War---An-Interative-Experience/', this, silentwarDocPages, [{label:'Process Doc', href:'design-docs/process-silentwar.pdf'}])"
             >
               <span class="tape-icon">📼</span>
               <div class="tape-info">
@@ -106,9 +117,7 @@
               <span class="label">DESIGN DOCS:</span>
               <div id="video-docs" class="doc-links">
                 <a href="design-docs/process-glassessay.pdf" target="_blank">📄 Process Doc</a>
-                <a href="design-docs/glassessay-mockup-1.pdf" target="_blank">📄 Mockup 1</a>
-                <a href="design-docs/glassessay-mockup-2.pdf" target="_blank">📄 Mockup 2</a>
-                <a href="design-docs/glassessay-mockup-3.pdf" target="_blank">📄 Mockup 3</a>
+        
               </div>
             </div>
           </div>
@@ -147,6 +156,90 @@
           <div class="strip-item">
             <span class="strip-label"></span>
             <img src="previews/essay8.jpeg" alt="Extra 3" />
+  
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p01.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p02.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p03.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p04.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p05.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p06.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p07.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p08.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p09.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p10.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p11.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p12.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p13.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p14.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p15.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p16.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p17.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-process-p18.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-mockup1-p01.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-mockup2-p01.jpg" alt="Process page" />
+          </div>
+          <div class="strip-item">
+            <span class="strip-label"></span>
+            <img src="previews/docs/glassessay-mockup3-p01.jpg" alt="Process page" />
           </div>
         </div>
       </div>
