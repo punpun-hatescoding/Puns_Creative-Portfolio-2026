@@ -2176,6 +2176,29 @@ span#x:hover {
   font-size: 1.1rem;
 }
 
+/* --- DESIGN DOC LINKS (webdev.html / animation.html detail panel) --- */
+.doc-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.doc-links a {
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  background: #ffe4c4;
+  border: 2px solid var(--dark-red);
+  border-radius: 20px;
+  padding: 4px 14px;
+  color: var(--dark-red);
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.doc-links a:hover {
+  background: var(--yellowgreen);
+}
+
 /* --- EXTRA SCREENSHOTS GRID (Gallery Style) --- */
 .preview-strip {
     /* 1. Use Grid instead of Flex */

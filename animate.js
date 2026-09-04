@@ -386,9 +386,27 @@ if (sendBtn) {
             }, 1500);
         });
     }
+// Renders the "Design Docs" row shared by webdev.html and animation.html.
+// docs is an array of {label, href} objects; an empty/missing array hides
+// the whole row instead of leaving it dangling with nothing to show.
+function renderDocLinks(docs) {
+    const row = document.getElementById('video-docs-row');
+    const container = document.getElementById('video-docs');
+    if (!container) return;
+    if (!docs || docs.length === 0) {
+        if (row) row.style.display = 'none';
+        container.innerHTML = '';
+        return;
+    }
+    if (row) row.style.display = '';
+    container.innerHTML = docs
+        .map(doc => `<a href="${doc.href}" target="_blank">📄 ${doc.label}</a>`)
+        .join('');
+}
+
 // --- 5. ANIMATION CHANNEL PLAYLIST LOGIC ---
 // Function to update Player AND Info Box
-function updatePlayer(videoID, imageSrc, title, desc, tools, btn, extraImages) {
+function updatePlayer(videoID, imageSrc, title, desc, tools, btn, extraImages, docs) {
 
     // 1. Update Link & Image
     // videoID is normally a bare Vimeo ID, but a full URL (e.g. a YouTube
@@ -410,6 +428,7 @@ function updatePlayer(videoID, imageSrc, title, desc, tools, btn, extraImages) {
     document.getElementById('video-title').innerText = title;
     document.getElementById('video-desc').innerText = desc;
     document.getElementById('video-tools').innerText = tools;
+    renderDocLinks(docs);
 
     // 3. Highlight Active Button
     const allTapes = document.querySelectorAll('.tape-btn');
@@ -435,7 +454,7 @@ function updatePlayer(videoID, imageSrc, title, desc, tools, btn, extraImages) {
 // Similar to updatePlayer(), but for webdev.html's project selector, where
 // each entry behaves differently: some link out to a live experience, some
 // show a demo video, and one (still in progress) has no link to give at all.
-function updateWebProject(mediaSrc, isVideo, mainLink, mainLinkLabel, title, desc, tools, tryLink, btn, extraImages) {
+function updateWebProject(mediaSrc, isVideo, mainLink, mainLinkLabel, title, desc, tools, tryLink, btn, extraImages, docs) {
 
     // 1. Show either the still image or the looping video preview
     const img = document.getElementById('main-preview-image');
@@ -483,6 +502,7 @@ function updateWebProject(mediaSrc, isVideo, mainLink, mainLinkLabel, title, des
     document.getElementById('video-title').innerText = title;
     document.getElementById('video-desc').innerText = desc;
     document.getElementById('video-tools').innerText = tools;
+    renderDocLinks(docs);
 
     // 4. Show/hide the "Try It Yourself" button depending on whether
     // there's a live link to send people to
@@ -515,6 +535,19 @@ function updateWebProject(mediaSrc, isVideo, mainLink, mainLinkLabel, title, des
         });
     }
 }
+
+// --- 5c. DEEP-LINK A PROJECT VIA ?project=slug ---
+// Lets other pages (e.g. works.html's Featured Work cards) link straight
+// into a specific tape on webdev.html/animation.html instead of always
+// landing on whichever one is active by default. Each tape-btn carries a
+// matching data-project attribute; if no match is found (wrong slug, or a
+// page with no tape-btns at all) this quietly does nothing.
+document.addEventListener('DOMContentLoaded', () => {
+    const project = new URLSearchParams(window.location.search).get('project');
+    if (!project) return;
+    const btn = document.querySelector(`.tape-btn[data-project="${project}"]`);
+    if (btn) btn.click();
+});
 
 // Function to handle Mobile Arrow Navigation
 function navigatePlaylist(direction) {
