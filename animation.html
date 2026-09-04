@@ -81,7 +81,7 @@
         <div class="tape-grid">
           <button
             class="tape-btn"
-            onclick="updatePlayer('https://www.youtube.com/watch?v=R2j0yZsPtkU', 'previews/bromance.png', 'Bromance', 'A 30-second stop-motion animation. A simple ripped pair of pants spirals into total chaos when a best friend tries to cover it up, making the embarrassment twice as loud.', 'Stop-Motion Animation, DragonFrame, After Effects', this, ['previews/bromance1.jpeg', 'previews/bromance2.jpeg', 'previews/bromance3.jpeg'])"
+            onclick="updatePlayer('https://www.youtube.com/watch?v=R2j0yZsPtkU', 'previews/bromance.png', 'Bromance', 'A 30-second stop-motion animation. A simple ripped pair of pants spirals into total chaos when a best friend tries to cover it up, making the embarrassment twice as loud.', 'Stop-Motion Animation, DragonFrame, After Effects', this, ['previews/bromance1.jpeg', 'previews/bromance2.jpeg', 'previews/bromance3.jpeg'], [{label:'Process Doc', href:'design-docs/process-bromance.pdf'}])"
           >
             <span class="tape-icon">📼</span>
             <div class="tape-info">
@@ -142,6 +142,13 @@
           <div class="detail-row">
             <span class="label">TOOLS:</span>
             <p id="video-tools" style="color: #b6ffea">After Effects, Audacity, Procreate, Clip Studio Paint</p>
+          </div>
+          <div class="detail-row" id="video-docs-row">
+            <span class="label">DESIGN DOCS:</span>
+            <div id="video-docs" class="doc-links">
+              <a href="design-docs/caviar-script.pdf" target="_blank">📄 Script</a>
+              <a href="design-docs/caviar-storyboard.pdf" target="_blank">📄 Storyboard</a>
+            </div>
           </div>
         </div>
       </div>
