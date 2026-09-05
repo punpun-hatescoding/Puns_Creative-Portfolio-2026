@@ -857,11 +857,24 @@ function stepStripLightbox(direction) {
     renderStripLightbox();
 }
 
+// Design-doc page thumbnails are rendered small (previews/docs/) so the
+// strip stays light to load; swap in the full-resolution render
+// (previews/docs-full/) for the lightbox so it isn't a blurry, blown-up
+// thumbnail. Other strip images (curated project screenshots) have no
+// such pair and are just shown as-is.
+function fullResSrc(img) {
+    // el.src resolves to an absolute URL, so match/replace on the raw
+    // attribute (a site-relative path like "previews/docs/foo.jpg") instead.
+    const raw = img.getAttribute('src') || '';
+    return raw.includes('previews/docs/') ? raw.replace('previews/docs/', 'previews/docs-full/') : img.src;
+}
+
 function openStripLightbox(clickedImg) {
     const strip = clickedImg.closest('.preview-strip');
     if (!strip) return;
-    stripLightboxImages = Array.from(strip.querySelectorAll('.strip-item img')).map(el => el.src);
-    stripLightboxIndex = Array.from(strip.querySelectorAll('.strip-item img')).indexOf(clickedImg);
+    const imgs = Array.from(strip.querySelectorAll('.strip-item img'));
+    stripLightboxImages = imgs.map(fullResSrc);
+    stripLightboxIndex = imgs.indexOf(clickedImg);
     renderStripLightbox();
     getStripLightbox().classList.add('active');
 }
