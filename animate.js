@@ -780,6 +780,97 @@ function navigatePlaylist(direction) {
     tapes[newIndex].click();
 }
 
+/* --- SWIPEABLE PREVIEW-STRIP LIGHTBOX (webdev.html / animation.html) --- */
+// The preview strips (#webdev-strip, #screenshot-container) can hold dozens
+// of design-doc pages. Clicking any thumbnail opens a full-size viewer that
+// swipes/arrows/arrow-keys through every image currently in that strip --
+// built once and reused, and wired via event delegation so it works for
+// both the static HTML thumbnails and ones added later by updatePlayer()/
+// updateWebProject().
+let stripLightboxEl = null;
+let stripLightboxImages = [];
+let stripLightboxIndex = 0;
+
+function getStripLightbox() {
+    if (stripLightboxEl) return stripLightboxEl;
+
+    const overlay = document.createElement('div');
+    overlay.id = 'strip-lightbox';
+    overlay.className = 'lightbox-overlay';
+    overlay.innerHTML = `
+        <div class="lightbox-content strip-lightbox-content">
+            <button class="strip-lightbox-arrow strip-lightbox-prev" aria-label="Previous page">‹</button>
+            <img class="strip-lightbox-img" src="" alt="Design doc page">
+            <button class="strip-lightbox-arrow strip-lightbox-next" aria-label="Next page">›</button>
+            <span class="strip-lightbox-counter"></span>
+            <span class="close-lightbox">×</span>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay || e.target.classList.contains('close-lightbox')) {
+            overlay.classList.remove('active');
+        }
+    });
+    overlay.querySelector('.strip-lightbox-prev').addEventListener('click', (e) => {
+        e.stopPropagation();
+        stepStripLightbox(-1);
+    });
+    overlay.querySelector('.strip-lightbox-next').addEventListener('click', (e) => {
+        e.stopPropagation();
+        stepStripLightbox(1);
+    });
+
+    // Swipe support (touch) and click-drag (mouse) on the image itself
+    let dragStartX = null;
+    const img = overlay.querySelector('.strip-lightbox-img');
+    img.addEventListener('touchstart', (e) => { dragStartX = e.touches[0].clientX; }, { passive: true });
+    img.addEventListener('touchend', (e) => {
+        if (dragStartX === null) return;
+        const dx = e.changedTouches[0].clientX - dragStartX;
+        if (Math.abs(dx) > 40) stepStripLightbox(dx > 0 ? -1 : 1);
+        dragStartX = null;
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!overlay.classList.contains('active')) return;
+        if (e.key === 'Escape') overlay.classList.remove('active');
+        if (e.key === 'ArrowLeft') stepStripLightbox(-1);
+        if (e.key === 'ArrowRight') stepStripLightbox(1);
+    });
+
+    stripLightboxEl = overlay;
+    return overlay;
+}
+
+function renderStripLightbox() {
+    const overlay = getStripLightbox();
+    overlay.querySelector('.strip-lightbox-img').src = stripLightboxImages[stripLightboxIndex];
+    overlay.querySelector('.strip-lightbox-counter').textContent =
+        `${stripLightboxIndex + 1} / ${stripLightboxImages.length}`;
+}
+
+function stepStripLightbox(direction) {
+    if (stripLightboxImages.length === 0) return;
+    stripLightboxIndex = (stripLightboxIndex + direction + stripLightboxImages.length) % stripLightboxImages.length;
+    renderStripLightbox();
+}
+
+function openStripLightbox(clickedImg) {
+    const strip = clickedImg.closest('.preview-strip');
+    if (!strip) return;
+    stripLightboxImages = Array.from(strip.querySelectorAll('.strip-item img')).map(el => el.src);
+    stripLightboxIndex = Array.from(strip.querySelectorAll('.strip-item img')).indexOf(clickedImg);
+    renderStripLightbox();
+    getStripLightbox().classList.add('active');
+}
+
+document.addEventListener('click', (e) => {
+    const img = e.target.closest('.preview-strip .strip-item img');
+    if (img) openStripLightbox(img);
+});
+
 /* --- MINIMAL LIGHTBOX LOGIC --- */
 
 function openArt(element) {

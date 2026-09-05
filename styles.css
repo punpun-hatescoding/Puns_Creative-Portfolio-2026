@@ -2201,14 +2201,20 @@ span#x:hover {
 
 /* --- EXTRA SCREENSHOTS GRID (Gallery Style) --- */
 .preview-strip {
-    /* 1. Use Grid instead of Flex */
-    display: grid;
-    /* Creates columns that fill space (min 150px wide) */
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 30px; /* Space between items */
+    /* A horizontally swipeable row instead of a wrapping grid -- some of
+       these strips hold 50-80 design-doc pages, so a single scrollable
+       lane with snap points is far easier to flip through than a giant
+       wall of thumbnails. Swipes natively on touch; click-drag or a
+       trackpad/scrollwheel works on desktop. */
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 
     margin-top: 20px;
-    padding-top: 20px;
+    padding: 20px 4px;
     border-top: 2px dashed #444; /* Separator from video */
     width: 100%;
 }
@@ -2220,7 +2226,9 @@ span#x:hover {
     background: #230909; /* Dark red frame */
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    
+    flex: 0 0 150px; /* Fixed width so items line up in a scrollable row */
+    scroll-snap-align: start;
+
     /* Animation for "Lift" effect */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -2567,6 +2575,65 @@ span#x:hover {
 }
 .close-lightbox:hover {
   color: var(--pink);
+}
+
+/* --- SWIPEABLE PREVIEW-STRIP LIGHTBOX (webdev.html / animation.html) --- */
+/* Reuses .lightbox-overlay / .lightbox-content / .close-lightbox above --
+   this just adds the full-size image, page counter and prev/next arrows
+   for flipping through a project's design-doc pages. */
+.strip-lightbox-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.strip-lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+.strip-lightbox-counter {
+  color: white;
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+.strip-lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.strip-lightbox-arrow:hover {
+  background: var(--pink);
+}
+
+.strip-lightbox-prev {
+  left: -60px;
+}
+
+.strip-lightbox-next {
+  right: -60px;
+}
+
+@media (max-width: 900px) {
+  .strip-lightbox-prev { left: 6px; }
+  .strip-lightbox-next { right: 6px; }
 }
 
 /* --- RETRO BACK BUTTON --- */
