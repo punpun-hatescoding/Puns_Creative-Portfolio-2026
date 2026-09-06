@@ -485,7 +485,9 @@ header {
 /* Hero role subtitle - quick context for time-pressed visitors (e.g. recruiters) */
 #hero-role {
   font-family: "VT323", monospace;
-  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  /* Raised the floor (was 1.1rem) -- at typical phone widths the 3vw
+     preferred value clamped down to that minimum, reading too small. */
+  font-size: clamp(1.4rem, 4vw, 1.6rem);
   letter-spacing: 1px;
   color: var(--yellowgreen);
   text-align: center;
