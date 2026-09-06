@@ -91,16 +91,20 @@ body {
 }
 
 /* ========================================= */
-/* Decorative red swirl frame around the homepage's title block only --
-   lives inside #title (which is position:relative) so it never reaches
-   up into the header/menu, and sits above the title's own images
-   without blocking clicks on anything underneath it. */
+/* Decorative green swirl frame wrapping the homepage's title, subtitle
+   and start/exit buttons together -- .hero-frame-wrap is the positioned
+   box it's scoped to, so it never reaches up into the header/menu, and
+   it sits above everything inside that box without blocking clicks. */
+.hero-frame-wrap {
+  position: relative;
+}
+
 .page-border-frame {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: fill; /* stretch to #title's edges so corners always line up */
+  object-fit: fill; /* stretch to the wrapper's edges so corners always line up */
   pointer-events: none;
   z-index: 5;
 }
@@ -432,7 +436,7 @@ header {
   width: 100vw;
   height: auto;
   padding-top: 5rem; /* Manually control the top gap */
-  padding-bottom: 5rem;
+  padding-bottom: 0.5rem; /* Tightened -- was 5rem, pushing the subtitle/buttons far away */
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -442,7 +446,7 @@ header {
   #title {
     bottom: 0;
     padding-top: 2rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
     row-gap: 0.5rem;
   }
 }
@@ -474,7 +478,7 @@ header {
   letter-spacing: 1px;
   color: var(--yellowgreen);
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 /* 5. Buttons Decorations */
@@ -550,27 +554,36 @@ header {
   justify-content: center;
   align-items: center;
   gap: 1rem; /* Space between the buttons */
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 #exit,
 #lets-start {
   position: relative;
-  width: auto;
+  /* Real width instead of transform:scale() -- scale only shrinks the
+     paint, not the layout box, so the button was reserving its full
+     467px-wide unscaled footprint and leaving a huge dead-space margin
+     around the smaller button people actually saw (the same bug pattern
+     documented elsewhere on this site). */
+  width: 220px;
   cursor: pointer;
-  transform: scale(0.5); /* Adjust size: 1 = normal, 0.5 = half size */
-  transition: transform 0.2s ease; /* Makes hover smooth */
+  transition: transform 0.15s ease;
 }
-@media (max-width: 450px) {
+@media (max-width: 600px) {
   #exit,
   #lets-start {
-    transform: scale(0.7); /* Slightly smaller on small screens */
+    width: 160px;
+  }
+  p#exit-text,
+  p#lets-start-text {
+    font-size: 1.1rem;
   }
 }
-/* Optional: Make them pop when hovered */
+/* A small pop on hover -- fine to use scale() here since it's a tiny,
+   intentional delta on top of the real size, not the sizing itself. */
 #exit:hover,
 #lets-start:hover {
-  transform: scale(0.55);
+  transform: scale(1.05);
 }
 
 /* Ensure images don't have weird gaps */
@@ -591,7 +604,11 @@ p#lets-start-text {
   transform: translate(-50%, -50%);
   margin: 0; /* Remove default paragraph margins */
   width: 100%; /* Ensure text aligns relative to full width */
-  font-size: clamp(3rem, 6vw, 4rem);
+  /* Sized to fit the button's real 220px width (was clamp(3rem,6vw,4rem),
+     tuned for when transform:scale(0.5) shrank the whole button visually
+     -- now that the button is a real 220px wide, that font-size massively
+     overflowed it). */
+  font-size: 1.5rem;
   font-family: VT323, monospace;
   color: var(--text-main);
   text-align: center;
@@ -599,26 +616,14 @@ p#lets-start-text {
   white-space: nowrap; /* Stops text from wrapping weirdly */
 }
 
-#exit:hover,
-#lets-start:hover {
-  transform: scale(0.55); /* Slightly larger on hover */
-}
 @media (max-width: 800px) {
   #welcome-to {
     width: 50%;
+    min-width: 200px;
   }
   #my-portfolio {
     width: 80%;
-  }
-}
-
-@media (max-width: 420px) {
-  #welcome-to {
-    width: 50%;
-    padding-top: 4rem;
-  }
-  #my-portfolio {
-    width: 80%;
+    min-width: 220px;
   }
 }
 
