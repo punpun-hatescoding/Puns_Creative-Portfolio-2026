@@ -436,7 +436,9 @@ header {
   width: 100vw;
   height: auto;
   padding-top: 5rem; /* Manually control the top gap */
-  padding-bottom: 0.5rem; /* Tightened -- was 5rem, pushing the subtitle/buttons far away */
+  /* No padding-bottom -- #hero-role's margin-top provides that gap
+     instead, at the same 1rem/0.5rem as row-gap so every gap in the
+     welcome-to -> my-portfolio -> hero-role -> buttons chain matches. */
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -446,7 +448,6 @@ header {
   #title {
     bottom: 0;
     padding-top: 2rem;
-    padding-bottom: 0.5rem;
     row-gap: 0.5rem;
   }
 }
@@ -457,15 +458,19 @@ header {
   max-width: 300px; /* Stop it from getting too huge on big screens */
   min-width: 150px; /* Stop it from getting too tiny on mobile */
   height: auto;
-  margin-bottom: 1rem; /* Small space between this and the next image */
+  /* Spacing to #my-portfolio comes from #title's row-gap alone now -- this
+     used to stack an extra margin-bottom on top of that row-gap, making
+     this particular gap bigger than the ones below it. */
 }
 
 /* 4. Style "My Portfolio" */
 #my-portfolio {
   display: block;
   width: 100%;
-  scale: 1.2;
-  max-width: 600px;
+  /* Was scale: 1.2 -- scale() only inflates the paint, not the layout
+     box, so on narrow screens the image visually overflowed past its
+     own (and the viewport's) edges. Sized for real via max-width instead. */
+  max-width: 720px;
   min-width: 280px;
   height: auto;
   margin-top: 0;
@@ -478,7 +483,12 @@ header {
   letter-spacing: 1px;
   color: var(--yellowgreen);
   text-align: center;
-  margin-top: 0.5rem;
+  margin-top: 1rem; /* Matches #title's row-gap so every gap in the chain is even */
+}
+@media (max-width: 450px) {
+  #hero-role {
+    margin-top: 0.5rem;
+  }
 }
 
 /* 5. Buttons Decorations */
@@ -554,7 +564,12 @@ header {
   justify-content: center;
   align-items: center;
   gap: 1rem; /* Space between the buttons */
-  margin-top: 1rem;
+  margin-top: 1rem; /* Matches the rest of the title -> subtitle -> buttons chain */
+}
+@media (max-width: 450px) {
+  #start-exit-buttons {
+    margin-top: 0.5rem;
+  }
 }
 
 #exit,
