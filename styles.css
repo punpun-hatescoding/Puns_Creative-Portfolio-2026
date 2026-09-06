@@ -91,6 +91,28 @@ body {
 }
 
 /* ========================================= */
+/* Decorative red swirl frame around the homepage's title block only --
+   lives inside #title (which is position:relative) so it never reaches
+   up into the header/menu, and sits above the title's own images
+   without blocking clicks on anything underneath it. */
+.page-border-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* stretch to #title's edges so corners always line up */
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Hidden on mobile -- too small a box for the frame to read as anything
+   but clutter around the title text. */
+@media (max-width: 600px) {
+  .page-border-frame {
+    display: none;
+  }
+}
+
 #npc-follower {
   position: fixed;
   width: 50px; /* Stays on screen even if you scroll */ /* Size of the emoji */
@@ -413,14 +435,8 @@ header {
   padding-bottom: 5rem;
   display: flex;
   flex-direction: column;
-  row-gap: 0.5rem;
+  row-gap: 1rem;
   align-items: center;
-  margin: 0;
-  /* A bubbly display font for the hero title only -- the rest of the site
-     stays on VT323, this is a deliberate one-off accent. */
-  font-family: "Freckle Face", cursive;
-  font-weight: normal;
-  text-align: center;
 }
 @media (max-width: 450px) {
   #title {
@@ -433,19 +449,22 @@ header {
 /* 3. Style "Welcome To" */
 #welcome-to {
   display: block;
-  font-size: clamp(2.2rem, 8vw, 3.5rem);
-  color: var(--pink);
-  text-shadow: 3px 3px 0 var(--dark-red);
-  letter-spacing: 2px;
+  width: 100%;
+  max-width: 300px; /* Stop it from getting too huge on big screens */
+  min-width: 150px; /* Stop it from getting too tiny on mobile */
+  height: auto;
+  margin-bottom: 1rem; /* Small space between this and the next image */
 }
 
 /* 4. Style "My Portfolio" */
 #my-portfolio {
   display: block;
-  font-size: clamp(3.2rem, 12vw, 6rem);
-  color: var(--yellowgreen);
-  text-shadow: 4px 4px 0 var(--dark-red);
-  letter-spacing: 2px;
+  width: 100%;
+  scale: 1.2;
+  max-width: 600px;
+  min-width: 280px;
+  height: auto;
+  margin-top: 0;
 }
 
 /* Hero role subtitle - quick context for time-pressed visitors (e.g. recruiters) */
