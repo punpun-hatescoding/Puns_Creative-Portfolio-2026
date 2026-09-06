@@ -113,7 +113,11 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  /* Distribute the 4 pieces (welcome-to, my-portfolio, subtitle, buttons)
+     evenly across the available height instead of clustering them
+     together in the middle. */
+  justify-content: space-evenly;
 }
 
 .page-border-frame {
@@ -447,26 +451,16 @@ header {
   z-index: 10; /* Lets clicks pass through to background 
 } */
 
-/* 2. The wrapper for the main title text */
+/* Groups "Welcome to" + "my Portfolio" as one tight pair -- kept close
+   together, unlike the even gaps .hero-frame-wrap's space-evenly puts
+   between this group, the subtitle, and the buttons. */
 #title {
-  position: relative;
-  width: 100vw;
-  height: auto;
-  /* No padding-top/bottom -- .hero-frame-wrap now vertically centers the
-     whole title/subtitle/buttons block in the space below the header, so
-     one-sided padding here would just push it off-center. #hero-role's
-     margin-top provides the gap below, at the same 1rem/0.5rem as
-     row-gap so every gap in the chain matches. */
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
   align-items: center;
+  row-gap: 0.25rem;
 }
-@media (max-width: 450px) {
-  #title {
-    row-gap: 0.5rem;
-  }
-}
+
 /* 3. Style "Welcome To" */
 #welcome-to {
   display: block;
@@ -474,9 +468,6 @@ header {
   max-width: 300px; /* Stop it from getting too huge on big screens */
   min-width: 150px; /* Stop it from getting too tiny on mobile */
   height: auto;
-  /* Spacing to #my-portfolio comes from #title's row-gap alone now -- this
-     used to stack an extra margin-bottom on top of that row-gap, making
-     this particular gap bigger than the ones below it. */
 }
 
 /* 4. Style "My Portfolio" */
@@ -489,7 +480,6 @@ header {
   max-width: 720px;
   min-width: 280px;
   height: auto;
-  margin-top: 0;
 }
 
 /* Hero role subtitle - quick context for time-pressed visitors (e.g. recruiters) */
@@ -499,12 +489,6 @@ header {
   letter-spacing: 1px;
   color: var(--yellowgreen);
   text-align: center;
-  margin-top: 1rem; /* Matches #title's row-gap so every gap in the chain is even */
-}
-@media (max-width: 450px) {
-  #hero-role {
-    margin-top: 0.5rem;
-  }
 }
 
 /* 5. Buttons Decorations */
@@ -579,13 +563,9 @@ header {
   flex-direction: row; /* Side by side */
   justify-content: center;
   align-items: center;
-  gap: 1rem; /* Space between the buttons */
-  margin-top: 1rem; /* Matches the rest of the title -> subtitle -> buttons chain */
-}
-@media (max-width: 450px) {
-  #start-exit-buttons {
-    margin-top: 0.5rem;
-  }
+  gap: 1rem; /* Space between the buttons themselves */
+  /* No margin-top -- .hero-frame-wrap's space-evenly handles the gap
+     above this like it does for every other piece in the hero. */
 }
 
 #exit,
