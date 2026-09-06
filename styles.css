@@ -393,13 +393,31 @@ header {
   z-index: 10; /* Lets clicks pass through to background 
 } */
 
-/* 2. The wrapper for the main title text */
+/* 1b. The retro window box wrapped around the title -- same chrome as the
+   About page's character card (cream body, hard pixel shadow) so the
+   homepage's window-header bar reads as part of the same design system. */
+.hero-window {
+  background-color: rgb(253, 239, 214);
+  border-radius: 15px;
+  box-shadow: 8px 8px 0px rgba(92, 23, 23, 0.2);
+  overflow: hidden;
+  width: 90%;
+  max-width: 700px;
+  margin: 5rem auto 0;
+}
+@media (max-width: 450px) {
+  .hero-window {
+    margin-top: 2rem;
+    width: 92%;
+  }
+}
+
+/* 2. The main title text, now living inside .hero-window's body */
 #title {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: auto;
-  padding-top: 5rem; /* Manually control the top gap */
-  padding-bottom: 5rem;
+  padding: 2.5rem 1rem;
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
@@ -413,16 +431,16 @@ header {
 }
 @media (max-width: 450px) {
   #title {
-    bottom: 0;
-    padding-top: 2rem;
-    padding-bottom: 1rem;
+    padding: 1.5rem 0.5rem;
     row-gap: 0.5rem;
   }
 }
 /* 3. Style "Welcome To" */
 #welcome-to {
   display: block;
-  font-size: clamp(2.2rem, 8vw, 3.5rem);
+  /* Sized to comfortably fit .hero-window's ~700px box, not the full
+     viewport it used to span. */
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
   color: var(--pink);
   text-shadow: 3px 3px 0 var(--dark-red);
   letter-spacing: 2px;
@@ -431,7 +449,7 @@ header {
 /* 4. Style "My Portfolio" */
 #my-portfolio {
   display: block;
-  font-size: clamp(3.2rem, 12vw, 6rem);
+  font-size: clamp(2.4rem, 9vw, 4rem);
   color: var(--yellowgreen);
   text-shadow: 4px 4px 0 var(--dark-red);
   letter-spacing: 2px;
