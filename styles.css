@@ -68,9 +68,20 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  /* Plain flat brown -- same shade as before (--pattern-bg-color), just
-     without the dotted radial-gradient pattern that used to sit on top. */
   background-color: var(--pattern-bg-color);
+  background-image: radial-gradient(
+      circle,
+      var(--pattern-dot-color) var(--dot-radius),
+      transparent calc(var(--dot-radius) + 0.5px)
+    ),
+    radial-gradient(
+      circle,
+      var(--pattern-dot-color) var(--dot-radius),
+      transparent calc(var(--dot-radius) + 0.5px)
+    );
+  background-size: var(--tile-size) var(--tile-size);
+  background-position: calc(var(--tile-size) / 2) calc(var(--tile-size) / 2),
+    0 0;
 }
 
 @media (max-width: 400px) {
@@ -393,31 +404,13 @@ header {
   z-index: 10; /* Lets clicks pass through to background 
 } */
 
-/* 1b. The retro window box wrapped around the title -- same chrome as the
-   About page's character card (cream body, hard pixel shadow) so the
-   homepage's window-header bar reads as part of the same design system. */
-.hero-window {
-  background-color: rgb(253, 239, 214);
-  border-radius: 15px;
-  box-shadow: 8px 8px 0px rgba(92, 23, 23, 0.2);
-  overflow: hidden;
-  width: 90%;
-  max-width: 700px;
-  margin: 5rem auto 0;
-}
-@media (max-width: 450px) {
-  .hero-window {
-    margin-top: 2rem;
-    width: 92%;
-  }
-}
-
-/* 2. The main title text, now living inside .hero-window's body */
+/* 2. The wrapper for the main title text */
 #title {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: auto;
-  padding: 2.5rem 1rem;
+  padding-top: 5rem; /* Manually control the top gap */
+  padding-bottom: 5rem;
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
@@ -431,16 +424,16 @@ header {
 }
 @media (max-width: 450px) {
   #title {
-    padding: 1.5rem 0.5rem;
+    bottom: 0;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
     row-gap: 0.5rem;
   }
 }
 /* 3. Style "Welcome To" */
 #welcome-to {
   display: block;
-  /* Sized to comfortably fit .hero-window's ~700px box, not the full
-     viewport it used to span. */
-  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  font-size: clamp(2.2rem, 8vw, 3.5rem);
   color: var(--pink);
   text-shadow: 3px 3px 0 var(--dark-red);
   letter-spacing: 2px;
@@ -449,7 +442,7 @@ header {
 /* 4. Style "My Portfolio" */
 #my-portfolio {
   display: block;
-  font-size: clamp(2.4rem, 9vw, 4rem);
+  font-size: clamp(3.2rem, 12vw, 6rem);
   color: var(--yellowgreen);
   text-shadow: 4px 4px 0 var(--dark-red);
   letter-spacing: 2px;
