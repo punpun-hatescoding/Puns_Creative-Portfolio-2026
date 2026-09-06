@@ -393,46 +393,48 @@ header {
   z-index: 10; /* Lets clicks pass through to background 
 } */
 
-/* 2. The wrapper for your two images */
+/* 2. The wrapper for the main title text */
 #title {
   position: relative;
   width: 100vw;
-  /* CHANGED: Let the height fit the content + some padding */
   height: auto;
   padding-top: 5rem; /* Manually control the top gap */
   padding-bottom: 5rem;
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 0.5rem;
   align-items: center;
+  margin: 0;
+  /* A bubbly display font for the hero title only -- the rest of the site
+     stays on VT323, this is a deliberate one-off accent. */
+  font-family: "Freckle Face", cursive;
+  font-weight: normal;
+  text-align: center;
 }
 @media (max-width: 450px) {
   #title {
     bottom: 0;
     padding-top: 2rem;
     padding-bottom: 1rem;
-    row-gap: 2rem;
+    row-gap: 0.5rem;
   }
 }
 /* 3. Style "Welcome To" */
 #welcome-to {
-  display: flexbox;
-  width: 100%;
-  max-width: 300px; /* Stop it from getting too huge on big screens */
-  min-width: 150px; /* Stop it from getting too tiny on mobile */
-  height: auto;
-  margin-bottom: 1rem; /* Small space between this and the next image */
+  display: block;
+  font-size: clamp(2.2rem, 8vw, 3.5rem);
+  color: var(--pink);
+  text-shadow: 3px 3px 0 var(--dark-red);
+  letter-spacing: 2px;
 }
 
 /* 4. Style "My Portfolio" */
 #my-portfolio {
-  display: flexbox;
-  width: 100%;
-  scale: 1.2;
-  max-width: 600px;
-  min-width: 280px;
-  height: auto;
-  margin-top: 0;
+  display: block;
+  font-size: clamp(3.2rem, 12vw, 6rem);
+  color: var(--yellowgreen);
+  text-shadow: 4px 4px 0 var(--dark-red);
+  letter-spacing: 2px;
 }
 
 /* Hero role subtitle - quick context for time-pressed visitors (e.g. recruiters) */
