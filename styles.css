@@ -99,6 +99,23 @@ body {
   position: relative;
 }
 
+/* Vertically center the hero block (title/subtitle/buttons) in whatever
+   viewport height is left below the header, instead of it top-aligning
+   and leaving a dead gap of background below it on short-content screens.
+   Scoped to just index.html's .container via :has() so no other page's
+   layout (which also uses .container/header) is affected. */
+.container:has(.hero-frame-wrap) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.container:has(.hero-frame-wrap) .hero-frame-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .page-border-frame {
   position: absolute;
   inset: 0;
@@ -435,10 +452,11 @@ header {
   position: relative;
   width: 100vw;
   height: auto;
-  padding-top: 5rem; /* Manually control the top gap */
-  /* No padding-bottom -- #hero-role's margin-top provides that gap
-     instead, at the same 1rem/0.5rem as row-gap so every gap in the
-     welcome-to -> my-portfolio -> hero-role -> buttons chain matches. */
+  /* No padding-top/bottom -- .hero-frame-wrap now vertically centers the
+     whole title/subtitle/buttons block in the space below the header, so
+     one-sided padding here would just push it off-center. #hero-role's
+     margin-top provides the gap below, at the same 1rem/0.5rem as
+     row-gap so every gap in the chain matches. */
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -446,8 +464,6 @@ header {
 }
 @media (max-width: 450px) {
   #title {
-    bottom: 0;
-    padding-top: 2rem;
     row-gap: 0.5rem;
   }
 }
